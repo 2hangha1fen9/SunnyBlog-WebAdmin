@@ -1,5 +1,4 @@
 import app from '@/interface/app'
-import { App } from 'vue'
 const state:app = {
     sidebar:{
         //!!+ 字符串转boolean

@@ -46,11 +46,14 @@ let message = ref("The webmaster said that you can not enter this page...");
 <style lang="scss" scoped>
 .wscn-http404-container {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .wscn-http404 {
     position: relative;
-    width: 1200px;
+    width: auto;
     padding: 0 50px;
     overflow: hidden;
     .pic-404 {

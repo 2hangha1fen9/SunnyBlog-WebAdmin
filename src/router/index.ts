@@ -1,18 +1,25 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { start, close } from "@/utils/progress";
+import Layout from '@/layout/Layout.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        component: () => import("@/views/HomeView.vue"),
+        component: Layout,
         name: "SunnyBlog",
         meta: {
             hidden: true
-        }
+        },
+        children: [
+            {
+                path: '/',
+                component: () => import('@/views/HomeView.vue')
+            }
+        ]
     },
     {
         path: "/user",
-        component: () => import("@/views/AboutView.vue"),
+        component: Layout,
         meta: {
             title: "用户管理",
             icon: "user",
@@ -35,6 +42,13 @@ const routes: Array<RouteRecordRaw> = [
                 },
             },
         ],
+    },
+    {
+        path: '/login',
+        component: () => import('@/views/Login.vue'),
+        meta: {
+            hidden: true
+        }
     },
     {
         path: "/404",

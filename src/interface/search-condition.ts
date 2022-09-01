@@ -1,4 +1,4 @@
-export type searchCondidtion = [
+export type SearchCondidtion = [
     {
         key?:string
         value?:string   

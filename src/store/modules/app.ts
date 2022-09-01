@@ -1,12 +1,12 @@
-import app from '@/interface/app'
-const state:app = {
+import App from '@/interface/app'
+const state:App = {
     sidebar:{
         //!!+ 字符串转boolean
         opened: localStorage.getItem('sidebarStatus') ? !!+<any>localStorage.getItem('sidebarStatus') : true,
     }
 }
 const mutations = {
-    TOGGLE_SIDEBAR: (state:app) => {
+    TOGGLE_SIDEBAR: (state:App) => {
         //对状态取反
         state.sidebar.opened = !state.sidebar.opened 
         if(state.sidebar.opened){
@@ -15,7 +15,7 @@ const mutations = {
             localStorage.setItem('sidebarStatus',"0")
         }
     },
-    CLOSE_SIDEBAR:(state:app) => {
+    CLOSE_SIDEBAR:(state:App) => {
         state.sidebar.opened = true
         localStorage.setItem('sidebarStatus',"0")
     }
@@ -30,7 +30,7 @@ const actions ={
     }
 }
 const getters = {
-    sidebar: (state:app) => state.sidebar
+    sidebar: (state:App) => state.sidebar
 }
 export default{
     namespaced: true,

@@ -38,8 +38,8 @@
 import { useStore } from "vuex"
 import { reactive, ref, watch } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import { loginPayload } from "@/interface/user"
-import { sendVCode } from "@/interface/send-vcode"
+import { LoginPayload } from "@/interface/user"
+import { SendVCode } from "@/interface/send-vcode"
 import { start, close } from "@/utils/progress"
 import type { FormRules, FormInstance } from "element-plus"
 import { login } from "@/api/identity" //登录api
@@ -48,8 +48,6 @@ import { sendVerificationCode } from "@/api/user" //验证码api
 const router = useRouter()
 const route = useRoute()
 const store = useStore()
-//加载显示
-const loading = ref(false)
 //重定向路径
 const redirect = ref()
 //ui显示数据
@@ -59,7 +57,7 @@ const passwordPlaceHolder = ref("密码") //输入框密码提示
 const passwordType = ref("password")
 //表单数据
 const loginForm = ref<FormInstance>()
-const loginData = reactive<loginPayload>({
+const loginData = reactive<LoginPayload>({
     client_id: "password",
     grant_type: "password",
     username: "",
@@ -85,13 +83,13 @@ const sendButton = reactive({
         }, 1000)
     },
 })
-const vcData = reactive<sendVCode>({
+const vcData = reactive<SendVCode>({
     type: "phone",
     receiver: "",
 })
 
 //用户名自定义验证
-function checkUsername(rule: any, value: string, callback: any) {
+function checkUsername(rule: unknown, value: string, callback: unknown) {
     //非空验证
     if (!value) {
         if (loginData.client_id === "password") {
@@ -120,7 +118,7 @@ function checkUsername(rule: any, value: string, callback: any) {
     callback()
 }
 //密码自定义验证
-function checkPassword(rule: any, value: any, callback: any) {
+function checkPassword(rule: unknown, value: unknown, callback: unknown) {
     if (!value) {
         if (loginData.client_id === "password") {
             return callback(new Error("请输入密码"))

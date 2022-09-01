@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { start, close } from "@/utils/progress";
 import Layout from '@/layout/Layout.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -28,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
         children: [
             {
                 path: "/user/list",
-                component: () => import("@/views/AboutView.vue"),
+                component: () => import("@/views/User/UserList.vue"),
                 meta: {
                     title: "用户列表",
                     icon: "list",

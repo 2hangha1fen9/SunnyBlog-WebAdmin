@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 import qs from 'qs'
-import { loginPayload } from '@/interface/user'
+import { LoginPayload } from '@/interface/user'
 
-export function login(data: loginPayload){
+export function login(data: LoginPayload){
     return request({
         url: '/identity-service/connect/token',
         method: 'post',

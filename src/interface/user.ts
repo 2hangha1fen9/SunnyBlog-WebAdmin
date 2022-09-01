@@ -1,4 +1,4 @@
-export interface user {
+export interface User {
     token: string,
     info: {
         user_id: number
@@ -8,20 +8,20 @@ export interface user {
     }
 }
 
-export interface loginPayload{
+export interface LoginPayload{
     client_id:string
     grant_type:string
     username:string
     password:string
 }
-export interface token {
+export interface Token {
     access_token: string
     expires_in: number
     token_type: string
     scope: string
 }
 
-export type userList = [
+export type UserList = [
     {
         userId:number
         username:string

@@ -1,8 +1,8 @@
 import request from '@/utils/request'
-import sendVCode from '@/interface/send-vcode'
-import { searchCondidtion } from '@/interface/search-condition'
+import SendVCode from '@/interface/send-vcode'
+import { SearchCondidtion } from '@/interface/search-condition'
 
-export function sendVerificationCode(data: sendVCode) {
+export function sendVerificationCode(data: SendVCode) {
     return request({
         url: '/user-service/verify/sendvcode',
         method: 'post',
@@ -10,7 +10,7 @@ export function sendVerificationCode(data: sendVCode) {
     })
 }
 
-export function listUser(data: searchCondidtion) {
+export function listUser(data: SearchCondidtion) {
     return request({
         url: '/user-service/manager/listuser',
         method: 'get',

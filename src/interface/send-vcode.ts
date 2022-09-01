@@ -1,5 +1,5 @@
-interface sendVCode {
+interface SendVCode {
     type: string
     receciver: string
 }
-export default sendVCode
+export default SendVCode

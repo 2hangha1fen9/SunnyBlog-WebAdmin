@@ -1,6 +1,6 @@
-interface app{
+interface App{
     sidebar:{
         opened: boolean,
     }
 }
-export default app
+export default App

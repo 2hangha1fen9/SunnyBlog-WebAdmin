@@ -37,10 +37,16 @@ service.interceptors.response.use(
         return response.data
     },
     error => {
-        console.log('err' + error)// for debug
         if (error.message == "Request failed with status code 401") {
             ElMessage({
                 message: '请先登录',
+                type: 'warning',
+            })
+            store.dispatch('user/logout')
+        }
+        else if (error.message == "Request failed with status code 400") {
+            ElMessage({
+                message: '鉴权失败',
                 type: 'warning',
             })
         }

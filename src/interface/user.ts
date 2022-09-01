@@ -7,6 +7,7 @@ export interface user {
         user_photo?: string
     }
 }
+
 export interface loginPayload{
     client_id:string
     grant_type:string
@@ -19,3 +20,20 @@ export interface token {
     token_type: string
     scope: string
 }
+
+export type userList = [
+    {
+        userId:number
+        username:string
+        nick?:string
+        phone?:string
+        email?:string
+        sex?:number
+        birthday?:string
+        registerTime?:string
+        remark?:string
+        score:number
+        photo?:string
+        status:number
+    }?
+]

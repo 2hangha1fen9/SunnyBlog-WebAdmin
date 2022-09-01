@@ -1,8 +1,8 @@
 import { user, token } from '@/interface/user'
 import jwtDecode from 'jwt-decode'
 const state: user = {
-    token: localStorage.getItem('token') as string,
-    info: {
+    token: localStorage.getItem('token') as string ?? '',
+    info: JSON.parse(<any>localStorage.getItem('info')) as user['info'] ?? {
         user_id: 0,
         user_name: '',
         user_nick: '',
@@ -19,6 +19,7 @@ const mutations = {
     //设置用户信息
     SET_INFO(state: user, info: user['info']) {
         state.info = info
+        localStorage.info = JSON.stringify(info)
     },
     //移除token
     REMOVE_TOKEN(state: user) {
@@ -32,6 +33,7 @@ const mutations = {
         info.user_name = ''
         info.user_nick = ''
         info.user_photo = ''
+        localStorage.removeItem('info')
     }
 }
 const actions = {
@@ -49,7 +51,8 @@ const actions = {
     logout({ commit }: any) {
         commit('REMOVE_TOKEN')
         commit('RESET_INFO')
-    }
+    },
+
 }
 const getters = {
     token(state: user) {

@@ -8,12 +8,13 @@ const routes: Array<RouteRecordRaw> = [
         component: Layout,
         name: "SunnyBlog",
         meta: {
+            title: 'SunnyBlog',
             hidden: true
         },
         children: [
             {
                 path: '/',
-                component: () => import('@/views/HomeView.vue')
+                component: () => import('@/views/HomeView.vue'),
             }
         ]
     },
@@ -47,6 +48,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/login',
         component: () => import('@/views/Login.vue'),
         meta: {
+            title: 'SunnyBlog统一认证',
             hidden: true
         }
     },
@@ -54,6 +56,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/404",
         component: () => import("@/views/404.vue"),
         meta: {
+            title: '404',
             hidden: true,
         },
     },
@@ -69,14 +72,6 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
-});
-
-//默认路由守卫
-router.beforeEach((pre, next) => {
-    start();
-});
-router.afterEach(() => {
-    close();
 });
 
 export default router;

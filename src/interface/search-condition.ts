@@ -1,6 +1,4 @@
-export type SearchCondidtion = [
-    {
-        key?:string
-        value?:string   
-    }?
-]
+export interface SearchCondidtion{
+    key?: string
+    value?: string
+}

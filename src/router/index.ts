@@ -20,8 +20,9 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/user",
         component: Layout,
+        redirect: '/user/list',
         meta: {
-            title: "用户管理",
+            title: "用户",
             icon: "user",
         },
         children: [
@@ -35,13 +36,32 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: "/user/add",
-                component: () => import("@/views/AboutView.vue"),
+                component: () => import("@/views/User/AddUser.vue"),
                 meta: {
                     title: "添加用户",
                     icon: "useradd",
                 },
-            },
+            }
         ],
+    },
+    {
+        path: '/auth',
+        component: Layout,
+        redirect: '/auth/list',
+        meta: {
+            title: '权限',
+            icon: 'auth'
+        },
+        children: [
+            {
+                path: "/auth/list",
+                component: () => import('@/views/Login.vue'),
+                meta: {
+                    title: '权限列表',
+                    icon: 'list'
+                }
+            }
+        ]
     },
     {
         path: '/login',
@@ -65,7 +85,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             hidden: true,
         },
-    },
+    }
 ];
 
 const router = createRouter({

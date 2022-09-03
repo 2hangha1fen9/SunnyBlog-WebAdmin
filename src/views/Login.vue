@@ -1,7 +1,7 @@
 <template>
     <section class="login-container">
         <img id="bgBox" src="https://baotangguo.cn:8081/" />
-        <el-form :model="loginData" :rules="rules" size="large" ref="loginForm" status-icon class="login-form" @keyup.native.enter="handleLogin(loginForm)">
+        <el-form :model="loginData" :rules="rules" size="large" ref="loginForm" status-icon class="login-form" @keyup.enter="handleLogin(loginForm)">
             <el-form-item>
                 <h3 style="width: 100%">
                     <svg-icon icon-class="sunny" />
@@ -29,7 +29,7 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <el-button type="primary" style="width: 100%; margin-bottom: 30px" @click="handleLogin(loginForm)">登录</el-button>
+            <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 30px" @click="handleLogin(loginForm)">登录</el-button>
         </el-form>
     </section>
 </template>
@@ -38,7 +38,7 @@
 import { useStore } from "vuex"
 import { reactive, ref, watch } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import { LoginPayload } from "@/interface/user"
+import { LoginPayload } from "@/interface/identity"
 import { SendVCode } from "@/interface/send-vcode"
 import { start, close } from "@/utils/progress"
 import type { FormRules, FormInstance } from "element-plus"
@@ -51,6 +51,7 @@ const store = useStore()
 //重定向路径
 const redirect = ref()
 //ui显示数据
+const loading = ref(false)
 const vSlot = ref("") // 验证登录append
 const usernamePlaceHolder = ref("登录名/邮箱/手机号") //输入框用户提示
 const passwordPlaceHolder = ref("密码") //输入框密码提示
@@ -62,6 +63,10 @@ const loginData = reactive<LoginPayload>({
     grant_type: "password",
     username: "",
     password: "",
+})
+const vcData = reactive<SendVCode>({
+    type: "phone",
+    receiver: "",
 })
 //验证码请求体
 const sendButton = reactive({
@@ -82,10 +87,6 @@ const sendButton = reactive({
             }
         }, 1000)
     },
-})
-const vcData = reactive<SendVCode>({
-    type: "phone",
-    receiver: "",
 })
 
 //用户名自定义验证
@@ -118,7 +119,7 @@ function checkUsername(rule: unknown, value: string, callback: unknown) {
     callback()
 }
 //密码自定义验证
-function checkPassword(rule: unknown, value: unknown, callback: unknown) {
+function checkPassword(rule: unknown, value: string, callback: unknown) {
     if (!value) {
         if (loginData.client_id === "password") {
             return callback(new Error("请输入密码"))
@@ -179,17 +180,17 @@ async function handleLogin(form: FormInstance) {
     await form.validate((valid, fields) => {
         if (valid) {
             start()
-
+            loading.value = true
             //调用登录api
             login(loginData).then((data) => {
                 //存入token
-                store.dispatch("user/login", data)
+                store.dispatch("identity/login", data)
                 router.push({ path: redirect.value || "/" })
                 close()
+                loading.value = false
             })
         } else {
             close()
-            console.log(fields)
             return false
         }
     })

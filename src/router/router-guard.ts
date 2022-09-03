@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 import store from '@/store/index'
 import { computed } from 'vue'
 
-const token = computed(() => store.getters['user/token'])
+const token = computed(() => store.getters['identity/token'])
 
 //路由白名单
 const whiteList = ['/login']
@@ -22,7 +22,7 @@ router.beforeEach(async (to, from, next) => {
             next()
         } else {
             //清除所有信息跳转到登录页
-            await store.dispatch('user/logout')
+            await store.dispatch('identity/logout')
             ElMessage.warning('凭证过期')
             next(`/login?redirect=${to.path}`)
             close()

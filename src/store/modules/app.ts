@@ -1,38 +1,38 @@
 import App from '@/interface/app'
-const state:App = {
-    sidebar:{
+const state: App = {
+    sidebar: {
         //!!+ 字符串转boolean
-        opened: localStorage.getItem('sidebarStatus') ? !!+<any>localStorage.getItem('sidebarStatus') : true,
+        opened: localStorage.getItem('sidebarStatus') ? !!+(localStorage.getItem('sidebarStatus') ?? '') : true,
     }
 }
 const mutations = {
-    TOGGLE_SIDEBAR: (state:App) => {
+    TOGGLE_SIDEBAR: (state: App) => {
         //对状态取反
-        state.sidebar.opened = !state.sidebar.opened 
-        if(state.sidebar.opened){
-            localStorage.setItem('sidebarStatus',"1")
-        }else{
-            localStorage.setItem('sidebarStatus',"0")
+        state.sidebar.opened = !state.sidebar.opened
+        if (state.sidebar.opened) {
+            localStorage.setItem('sidebarStatus', "1")
+        } else {
+            localStorage.setItem('sidebarStatus', "0")
         }
     },
-    CLOSE_SIDEBAR:(state:App) => {
+    CLOSE_SIDEBAR: (state: App) => {
         state.sidebar.opened = true
-        localStorage.setItem('sidebarStatus',"0")
+        localStorage.setItem('sidebarStatus', "0")
     }
 }
-const actions ={
+const actions = {
     //切换侧边栏状态
-    toggleSideBar({commit}:any){
+    toggleSideBar({ commit }: any) {
         commit('TOGGLE_SIDEBAR')
     },
-    closeSideBar({commit}:any){
+    closeSideBar({ commit }: any) {
         commit('CLOSE_SIDEBAR')
     }
 }
 const getters = {
-    sidebar: (state:App) => state.sidebar
+    sidebar: (state: App) => state.sidebar
 }
-export default{
+export default {
     namespaced: true,
     state,
     mutations,

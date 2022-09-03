@@ -6,11 +6,10 @@
 
 <script setup lang="ts">
 import { useStore } from "vuex"
-import {useRouter,useRoute}from 'vue-router'
+import { useRouter, useRoute } from "vue-router"
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
-
 defineProps({
     photo: {
         type: String,
@@ -23,7 +22,7 @@ defineProps({
 })
 
 function logout() {
-    store.dispatch("user/logout")
+    store.dispatch("identity/logout")
     router.push(`/login?redirect=${route.fullPath}`)
 }
 </script>

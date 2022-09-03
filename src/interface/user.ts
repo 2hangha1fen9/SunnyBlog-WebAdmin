@@ -1,39 +1,21 @@
-export interface User {
-    token: string,
-    info: {
-        user_id: number
-        user_name: string
-        user_nick?: string
-        user_photo?: string
-    }
+//用户详情
+export interface UserInfo {
+    id: number
+    username: string
+    password: string
+    nick?: string
+    phone?: string
+    email?: string
+    sex?: number
+    birthday?: string
+    registerTime?: string
+    remark?: string
+    score: number
+    photo?: string
+    status: number
 }
 
-export interface LoginPayload{
-    client_id:string
-    grant_type:string
-    username:string
-    password:string
+//删除ID序列
+export interface UserId {
+    Id: number
 }
-export interface Token {
-    access_token: string
-    expires_in: number
-    token_type: string
-    scope: string
-}
-
-export type UserList = [
-    {
-        userId:number
-        username:string
-        nick?:string
-        phone?:string
-        email?:string
-        sex?:number
-        birthday?:string
-        registerTime?:string
-        remark?:string
-        score:number
-        photo?:string
-        status:number
-    }?
-]

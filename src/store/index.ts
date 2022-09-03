@@ -1,10 +1,10 @@
 import { createStore } from 'vuex'
 import app from './modules/app'
-import user from './modules/user'
+import identity from './modules/identity'
 
 export default createStore({
     modules: {
         app,
-        user
+        identity
     }
 })

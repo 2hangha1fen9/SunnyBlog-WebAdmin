@@ -1,6 +1,14 @@
-interface Response<T> {
-    Result: T
-    Message: string
-    Status: number
+//通用响应
+export interface Response<T> {
+    result: T
+    message: string
+    status: number
 }
-export default Response
+//分页
+export interface PageBean<T> {
+    page: Array<T>
+    pageIndex: number
+    pageSize: number
+    totalPages: number
+    totalCount: number
+}

@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { useStore } from 'vuex'
+import store from '@/store/index'
 import { ElMessage } from 'element-plus'
 import { computed } from 'vue'
-const store = useStore()
-const token = computed(() => store.getters['user/token'])
+const token = computed(() => store.getters['identity/token'])
 
 //创建axios实例
 const service = axios.create({
@@ -14,9 +13,14 @@ const service = axios.create({
 //request拦截器
 service.interceptors.request.use(config => {
     //让每一个请求都带上jwt
-    if (config && config.headers) {
-        config.headers['Authorization'] = `Bearer ${token}`
+    if(token.value){
+        if (config && config.headers) {
+            config.headers['Authorization'] = `Bearer ${token.value}`
+        }
+    }else{
+        store.dispatch('identity/logout')
     }
+    
     return config
 }, error => {
     console.log(error)
@@ -39,14 +43,7 @@ service.interceptors.response.use(
     error => {
         if (error.message == "Request failed with status code 401") {
             ElMessage({
-                message: '请先登录',
-                type: 'warning',
-            })
-            store.dispatch('user/logout')
-        }
-        else if (error.message == "Request failed with status code 400") {
-            ElMessage({
-                message: '鉴权失败',
+                message: '您没有权限',
                 type: 'warning',
             })
         }

@@ -1,6 +1,5 @@
 import request from '@/utils/request'
-import SendVCode from '@/interface/send-vcode'
-import { UserId, UserInfo } from '@/interface/user'
+import { UserId, UserInfo, SendVCode } from '@/interface/user'
 import { SearchCondidtion } from '@/interface/search-condition'
 
 //发送验证码

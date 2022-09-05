@@ -39,9 +39,9 @@ import { useStore } from "vuex"
 import { reactive, ref, watch } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import { LoginPayload } from "@/interface/identity"
-import { SendVCode } from "@/interface/send-vcode"
+import { SendVCode } from "@/interface/user"
 import { start, close } from "@/utils/progress"
-import type { FormRules, FormInstance } from "element-plus"
+import { FormRules, FormInstance, ElMessage } from "element-plus"
 import { login } from "@/api/identity" //登录api
 import { sendVerificationCode } from "@/api/user" //验证码api
 
@@ -182,13 +182,19 @@ async function handleLogin(form: FormInstance) {
             start()
             loading.value = true
             //调用登录api
-            login(loginData).then((data) => {
-                //存入token
-                store.dispatch("identity/login", data)
-                router.push({ path: redirect.value || "/" })
-                close()
-                loading.value = false
-            })
+            login(loginData)
+                .then((data) => {
+                    //存入token
+                    store.dispatch("identity/login", data)
+                    router.push({ path: redirect.value || "/" })
+                    close()
+                    loading.value = false
+                })
+                .catch((error) => {
+                    ElMessage.warning(`鉴权失败`)
+                    loading.value = false
+                    close()
+                })
         } else {
             close()
             return false

@@ -11,7 +11,6 @@ const whiteList = ['/login']
 
 router.beforeEach(async (to, from, next) => {
     start() //开启进度条
-    document.title = to.meta.title as any //设置页面标题
     if (token.value) {
         //如果已经登录了则跳转
         next()

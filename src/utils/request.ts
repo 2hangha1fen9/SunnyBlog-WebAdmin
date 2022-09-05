@@ -7,20 +7,20 @@ const token = computed(() => store.getters['identity/token'])
 //创建axios实例
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API, //api网关
-    timeout: 10000 //请求超时时间10s
+    timeout: 20000 //请求超时时间10s
 })
 
 //request拦截器
 service.interceptors.request.use(config => {
     //让每一个请求都带上jwt
-    if(token.value){
+    if (token.value) {
         if (config && config.headers) {
             config.headers['Authorization'] = `Bearer ${token.value}`
         }
-    }else{
+    } else {
         store.dispatch('identity/logout')
     }
-    
+
     return config
 }, error => {
     console.log(error)

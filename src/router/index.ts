@@ -18,47 +18,88 @@ const routes: Array<RouteRecordRaw> = [
         ]
     },
     {
-        path: "/user",
+        path: '/article',
         component: Layout,
-        redirect: '/user/list',
+        redirect: '/article/list',
         meta: {
-            title: "用户",
-            icon: "user",
+            title: '文章',
+            icon: 'article'
         },
         children: [
             {
-                path: "/user/list",
-                component: () => import("@/views/User/UserList.vue"),
+                path: '/article/list',
+                component: () => import("@/views/Article/ArticleList.vue"),
                 meta: {
-                    title: "用户列表",
-                    icon: "list",
-                },
-            },
-            {
-                path: "/user/add",
-                component: () => import("@/views/User/AddUser.vue"),
-                meta: {
-                    title: "添加用户",
-                    icon: "useradd",
-                },
+                    title: '文章列表',
+                    icon: 'articlelist',
+                }
             }
-        ],
+        ]
     },
     {
-        path: '/auth',
+        path: '/permission',
         component: Layout,
-        redirect: '/auth/list',
+        redirect: '/user/list',
         meta: {
             title: '权限',
             icon: 'auth'
         },
         children: [
             {
-                path: "/auth/list",
-                component: () => import('@/views/Login.vue'),
+                path: "/user/list",
+                component: () => import("@/views/Permission/UserList.vue"),
                 meta: {
-                    title: '权限列表',
-                    icon: 'list'
+                    title: "用户管理",
+                    icon: "userlist",
+                },
+            },
+            {
+                path: "/permission/rolelist",
+                component: () => import('@/views/Permission/RoleList.vue'),
+                meta: {
+                    title: '角色管理',
+                    icon: 'rolelist'
+                }
+            },
+            {
+                path: "/permission/authlist",
+                component: () => import('@/views/Permission/AuthList.vue'),
+                meta: {
+                    title: '权限管理',
+                    icon: 'authlist'
+                }
+            }
+        ]
+    },
+    {
+        path: '/maintin',
+        component: Layout,
+        redirect: '/maintin/apollo',
+        meta: {
+            title: '系统维护',
+            icon: 'maintin'
+        },
+        children: [
+            {
+                path: '/maintin/apollo',
+                component: () => import('@/views/Maintin/Iframe.vue'),
+                props: {
+                    url: 'http://localhost:8080/apollo'
+                },
+                meta: {
+                    title: '配置中心',
+                    icon: 'apollo'
+                }
+            },
+            {
+                path: '/maintin/consul',
+                component: () => import('@/views/Maintin/Iframe.vue'),
+                props: {
+                    url: 'http://localhost:8500/ui/'
+                },
+                meta: {
+                    title: '注册中心',
+                    icon: 'consul'
                 }
             }
         ]

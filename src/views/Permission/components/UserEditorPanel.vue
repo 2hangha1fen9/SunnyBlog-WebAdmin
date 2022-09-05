@@ -1,14 +1,14 @@
 <template>
     <el-form :rules="rules" ref="formRef" :model="user" label-width="80px">
-        <el-form-item label="头像" prop="photo" style="height: 80px" v-if="!isAdd">
+        <el-form-item label="头像" prop="photo" style="height: 80px" v-if="!mode">
             <el-upload class="avatar-uploader" :show-file-list="false" :auto-upload="false" :limit="1" :on-change="previewPhoto" name="data">
                 <el-avatar :size="80" ref="photoRef" :src="user.photo" />
             </el-upload>
         </el-form-item>
         <el-form-item label="登录名" required prop="username">
-            <el-input v-model="user.username" :disabled="!isAdd" />
+            <el-input v-model="user.username" :disabled="!mode" />
         </el-form-item>
-        <el-form-item label="密码" required prop="password" v-if="isAdd">
+        <el-form-item label="密码" required prop="password" v-if="mode">
             <el-input v-model="user.password" type="password" />
         </el-form-item>
         <el-form-item label="昵称" prop="nick">
@@ -23,7 +23,7 @@
         <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="user.sex">
                 <el-radio :label="1">男</el-radio>
-                <el-radio :label="0">女</el-radio>
+                <el-radio :label="-1">女</el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item label="生日" prop="birthday">
@@ -32,7 +32,7 @@
         <el-form-item label="备注" prop="remark">
             <el-input v-model="user.remark" autosize type="textarea" />
         </el-form-item>
-        <el-form-item label="是否启用" prop="status" required>
+        <el-form-item label="是否启用" prop="status">
             <el-switch size="large" v-model="user.status" :active-value="1" :inactive-value="-1" />
         </el-form-item>
         <div class="submit">
@@ -59,7 +59,7 @@ const emits = defineEmits<{
 
 //表单数据
 const user = ref<UserInfo>(props.user ?? {})
-const isAdd = ref(props.isAdd) //当前窗口是否为添加模式
+const mode = ref(props.isAdd) //当前窗口是否为添加模式
 const photoData = ref<FormData>(new FormData()) //用户待上传的图片数据
 const loading = ref(false)
 const formRef = ref<FormInstance>()
@@ -143,7 +143,7 @@ async function save(form: FormInstance) {
     if (!form) return
     await form.validate((valid, fields) => {
         if (valid) {
-            if (isAdd.value) {
+            if (mode.value) {
                 //添加模式
                 addUser(user.value).then((data: Response<string>) => {
                     checkResult(data)

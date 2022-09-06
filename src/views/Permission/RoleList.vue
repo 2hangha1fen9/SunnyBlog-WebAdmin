@@ -45,7 +45,7 @@
             </el-table-column>
             <el-table-column prop="isDefault" fixed="right" width="100" label="是否默认">
                 <template #default="scope">
-                    <el-switch size="large" @change="handleIsDefaultChange($event, scope.row.id)" v-model="scope.row.isDefault" inline-prompt :active-value="1" active-text="默认" :inactive-value="-1" inactive-text="非默认" />
+                    <el-switch size="large" @change="handleIsDefaultChange($event, scope.row.id)" v-model="scope.row.isDefault" inline-prompt :active-value="1" active-text="默认" :inactive-value="-1" />
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="200">

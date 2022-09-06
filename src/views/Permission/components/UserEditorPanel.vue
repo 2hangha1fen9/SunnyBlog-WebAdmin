@@ -133,8 +133,10 @@ function checkResult(data: Response<string>) {
         ElMessage.warning(data.message)
     } else {
         ElMessage.success("操作成功")
-        emits("closeDialog")
-        emits("updateState")
+        setTimeout(() => {
+            emits("closeDialog")
+            emits("updateState")
+        }, 1000)
     }
     loading.value = false
 }

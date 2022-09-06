@@ -9,6 +9,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import Main from "./Main/Main.vue";
-import SideBar from "./SideBar/SideBar.vue";
+import Main from "./Main/Main.vue"
+import SideBar from "./SideBar/SideBar.vue"
 </script>

@@ -37,6 +37,10 @@ const getters = {
         }
         return ''
     },
+    userId(state: Jwt) {
+        const { user_id } = jwtDecode<JwtPayload>(getters.token(state))
+        return user_id
+    },
     username(state: Jwt) {
         const { user_name, user_nick } = jwtDecode<JwtPayload>(getters.token(state))
         return user_nick || user_name

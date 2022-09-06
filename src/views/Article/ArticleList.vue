@@ -26,8 +26,7 @@
                     </el-radio-group>
                     <el-radio-group v-else-if="con.isState && con.key === 'isLock'" v-model="con.value">
                         <el-radio-button :label="-1">锁定</el-radio-button>
-                        <el-radio-button :label="1">允许评论</el-radio-button>
-                        <el-radio-button :label="2">未锁定</el-radio-button>
+                        <el-radio-button :label="1">未锁定</el-radio-button>
                     </el-radio-group>
                     <el-input v-else v-model="con.value" @keyup.enter="getArticleList">
                         <template #prepend>
@@ -39,10 +38,10 @@
         </el-card>
         <el-table :data="state.page" border ref="tableRef" current-row-key="id" v-loading="tableLoading">
             <el-table-column type="selection" fixed width="55" />
-            <el-table-column prop="id" label="编号" width="100" />
+            <el-table-column prop="id" label="编号" />
             <el-table-column prop="username" label="作者" width="120" />
-            <el-table-column prop="title" fixed label="文章标题" width="300" />
-            <el-table-column prop="regionName" fixed label="分区" />
+            <el-table-column prop="title" fixed label="文章标题" min-width="300" />
+            <el-table-column prop="regionName" label="分区" min-width="90" />
             <el-table-column prop="createTime" label="发布时间" :formatter="createTimeFormatter" width="200"></el-table-column>
             <el-table-column prop="updateTime" label="更新时间" :formatter="updateTimeFormatter" width="200"></el-table-column>
             <el-table-column prop="status" fixed="right" width="90" label="状态">
@@ -53,24 +52,24 @@
                     <el-tag v-else-if="scope.row.status === 3" type="info">回收站</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="commentStatus" width="100" label="评论策略">
+            <el-table-column fixed="right" prop="commentStatus" width="100" label="评论策略">
                 <template #default="scope">
-                    <el-tag v-if="scope.row.status === -1" type="error">禁止评论</el-tag>
-                    <el-tag v-else-if="scope.row.status === 1" type="success">允许评论</el-tag>
-                    <el-tag v-else-if="scope.row.status === 2" type="warning">需要审核</el-tag>
+                    <el-tag v-if="scope.row.commentStatus === -1" type="error">禁止评论</el-tag>
+                    <el-tag v-else-if="scope.row.commentStatus === 1" type="success">允许评论</el-tag>
+                    <el-tag v-else-if="scope.row.commentStatus === 2" type="warning">需要审核</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="isLock" width="90" label="是否锁定">
+            <el-table-column fixed="right" prop="isLock" width="90" label="是否锁定">
                 <template #default="scope">
-                    <el-tag v-if="scope.row.status === -1" type="error">锁定</el-tag>
-                    <el-tag v-else-if="scope.row.status === 1" type="success">未锁定</el-tag>
+                    <el-tag v-if="scope.row.isLock === -1" type="error">锁定</el-tag>
+                    <el-tag v-else-if="scope.row.isLock === 1" type="success">未锁定</el-tag>
                 </template>
             </el-table-column>
             <el-table-column fixed="right" width="180" label="操作">
                 <template #default="scope">
                     <el-button-group>
-                        <el-button type="primary" size="small" @click="handleDialogVisible(scope.row, false)">编辑</el-button>
-                        <el-button type="success" size="small" @click="handleDialogVisible(scope.row, false)">设置</el-button>
+                        <el-button type="primary" size="small" @click="redirectEditorPanel(scope.row.id)">编辑</el-button>
+                        <el-button type="success" size="small" @click="handleSettingDialogVisible(scope.row)">设置</el-button>
                         <el-popconfirm title="您确定要删除这条记录吗" @confirm="handleSingleDelete(scope.row.id, scope.$index)">
                             <template #reference>
                                 <el-button type="danger" size="small">删除</el-button>
@@ -93,23 +92,25 @@
             </div>
             <el-pagination class="pageination" background layout="jumper, prev, pager, next , total ,sizes" :total="state.totalCount" v-model:currentPage="state.pageIndex" v-model:page-size="state.pageSize" />
         </footer>
-        <!-- <el-dialog v-model="dialogVisible" v-if="dialogVisible" :title="isAdd ? '添加用户' : '修改用户信息'">
-            <EditorPanel :user="rowRef" :isAdd="isAdd" @closeDialog="dialogVisible = false" @updateState="getUserList"></EditorPanel>
-        </el-dialog> -->
+        <el-dialog v-model="dialogVisible" v-if="dialogVisible" :title="isAdd ? '添加用户' : '文章信息'">
+            <ArticleSettingPanel :article="rowRef" :isEdit="true" @closeDialog="dialogVisible = false" @updateState="getArticleList"></ArticleSettingPanel>
+        </el-dialog>
     </section>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, ref, computed } from "vue"
+import { reactive, watch, ref, computed, onMounted } from "vue"
+import { useRouter } from "vue-router"
 import { ElMessage, ElTable } from "element-plus"
-import { listArticle, delArticle, updateArticle } from "@/api/article"
+import { listArticle, delArticle } from "@/api/article"
 import { Article, ArticleId } from "@/interface/article"
 import { Response, PageBean } from "@/interface/response"
 import { SearchCondidtion } from "@/interface/search-condition"
-import { debounce, throttle } from "lodash" //引入防抖节流
-import ArticleEditorPanel from "./components/ArticleEditorPanel.vue"
+import { throttle } from "lodash" //引入防抖节流
+import ArticleSettingPanel from "./components/ArticleSettingPanel.vue"
 import { dateTimeFormatter } from "@/utils/converter"
 
+const router = useRouter()
 //数据
 const tableLoading = ref(false) //表格加载动画
 const dialogVisible = ref(false) //对话框显示状态
@@ -140,16 +141,6 @@ const condidtion = [
         label: "分区",
     },
     {
-        key: "tag",
-        value: "",
-        label: "标签",
-    },
-    {
-        key: "category",
-        value: "",
-        label: "分区",
-    },
-    {
         key: "status",
         label: "状态",
         value: "1",
@@ -163,7 +154,7 @@ const condidtion = [
     },
     {
         key: "commentStatus",
-        label: "评论控制",
+        label: "评论策略",
         value: "1",
         isState: true,
     },
@@ -224,20 +215,44 @@ function handleManyDelete() {
     })
 }
 
-//弹出修改对话框
-function handleDialogVisible(article: Article) {
+//初始化行数据
+function initRowData(article: Article) {
+    rowRef.id = article.id
     rowRef.title = article.title
+    rowRef.userId = article.userId
     rowRef.summary = article.summary
-    rowRef.photo = article.photo
+    rowRef.photo = `${process.env.VUE_APP_BASE_API}/article-service${article.photo}`
     rowRef.regionId = article.regionId
     rowRef.regionName = article.regionName
-    rowRef.tags = article.tags
-    rowRef.categorys = article.categorys
+    let tagIds = []
+    article.tags.forEach((item) => {
+        tagIds.unshift(item.id)
+    })
+    rowRef.tags = tagIds
+    let categoryIds = []
+    article.categorys.forEach((item) => {
+        tagIds.unshift(item.id)
+    })
+    rowRef.categorys = categoryIds
     rowRef.status = article.status
     rowRef.isLock = article.isLock
     rowRef.commentStatus = article.commentStatus
+}
+//弹出修改对话框
+function handleSettingDialogVisible(article: Article) {
+    initRowData(article)
     dialogVisible.value = true
 }
+function redirectEditorPanel(aid: number) {
+    router.push({
+        path: "/article/editor",
+        query: {
+            articleId: aid,
+            isEdit: true,
+        },
+    })
+}
+
 //日期格式化
 function createTimeFormatter(row: Article) {
     return dateTimeFormatter(row.createTime)
@@ -246,10 +261,12 @@ function updateTimeFormatter(row: Article) {
     return dateTimeFormatter(row.createTime)
 }
 
-//监听页码页面尺寸
-watch([() => state.pageIndex, () => state.pageSize], () => {
-    getArticleList()
-    window.scrollTo({ left: 0, top: 0, behavior: "smooth" }) //滚动到页面顶部
+onMounted(() => {
+    //监听页码页面尺寸
+    watch([() => state.pageIndex, () => state.pageSize], () => {
+        getArticleList()
+        window.scrollTo({ left: 0, top: 0, behavior: "smooth" }) //滚动到页面顶部
+    })
 })
 
 getArticleList()

@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from 'vue'
-import Header from "./Header.vue";
-import { useRoute } from "vue-router";
+import { computed } from "vue"
+import Header from "./Header.vue"
+import { useRoute } from "vue-router"
 
-const route = useRoute();
+const route = useRoute()
 const key = computed(() => route.path)
 </script>
 

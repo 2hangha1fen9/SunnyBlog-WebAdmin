@@ -33,6 +33,14 @@ const routes: Array<RouteRecordRaw> = [
                     title: '文章列表',
                     icon: 'articlelist',
                 }
+            },
+            {
+                path: '/article/editor',
+                component: () => import('@/views/Article/ArticleEditor.vue'),
+                meta: {
+                    title: '发布文章',
+                    icon: 'articlePublish'
+                }
             }
         ]
     },
@@ -81,17 +89,6 @@ const routes: Array<RouteRecordRaw> = [
         },
         children: [
             {
-                path: '/maintin/apollo',
-                component: () => import('@/views/Maintin/Iframe.vue'),
-                props: {
-                    url: 'http://localhost:8080/apollo'
-                },
-                meta: {
-                    title: '配置中心',
-                    icon: 'apollo'
-                }
-            },
-            {
                 path: '/maintin/consul',
                 component: () => import('@/views/Maintin/Iframe.vue'),
                 props: {
@@ -101,6 +98,60 @@ const routes: Array<RouteRecordRaw> = [
                     title: '注册中心',
                     icon: 'consul'
                 }
+            },
+            {
+                path: '/maintin/api',
+                redirect: '/maintin/consul',
+                meta: {
+                    title: '接口平台',
+                    icon: 'interface'
+                },
+                children: [
+                    {
+                        path: '/maintin/api/userServce',
+                        component: () => import('@/views/Maintin/Iframe.vue'),
+                        props: {
+                            url: 'https://localhost:8081/swagger'
+                        },
+                        meta: {
+                            title: '用户服务',
+                            icon: 'userlist'
+                        }
+                    },
+                    {
+                        path: '/maintin/api/identityService',
+                        component: () => import('@/views/Maintin/Iframe.vue'),
+                        props: {
+                            url: 'https://localhost:8000/swagger'
+                        },
+                        meta: {
+                            title: '认证服务',
+                            icon: 'auth'
+                        }
+                    },
+                    {
+                        path: '/maintin/api/articleService',
+                        component: () => import('@/views/Maintin/Iframe.vue'),
+                        props: {
+                            url: 'https://localhost:8082/swagger'
+                        },
+                        meta: {
+                            title: '文章服务',
+                            icon: 'article'
+                        }
+                    },
+                    {
+                        path: '/maintin/api/commentService',
+                        component: () => import('@/views/Maintin/Iframe.vue'),
+                        props: {
+                            url: 'https://localhost:8083/swagger'
+                        },
+                        meta: {
+                            title: '评论服务',
+                            icon: 'comment'
+                        }
+                    },
+                ]
             }
         ]
     },

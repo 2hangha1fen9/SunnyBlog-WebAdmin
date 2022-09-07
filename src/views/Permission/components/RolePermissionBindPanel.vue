@@ -23,9 +23,14 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { ElMessage } from "element-plus"
-import { Response, PageBean } from "@/interface/response"
-import { Permission, Role } from "@/interface/identity"
-import { listPermission, listRolePermission, rolePermissionBind } from "@/api/identity"
+//接口
+import { Response, PageBean } from "@/interface/common/response"
+import { Permission } from "@/interface/identity/permission"
+import { Role } from "@/interface/identity/role"
+//api
+import { listPermission, listRolePermission}from "@/api/identity/permission"
+import { rolePermissionBind } from "@/api/identity/relation"
+
 const props = defineProps<{
     role: Role
 }>()

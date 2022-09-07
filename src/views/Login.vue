@@ -38,12 +38,14 @@
 import { useStore } from "vuex"
 import { reactive, ref, watch } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import { LoginPayload } from "@/interface/identity"
-import { SendVCode } from "@/interface/user"
 import { start, close } from "@/utils/progress"
 import { FormRules, FormInstance, ElMessage } from "element-plus"
-import { login } from "@/api/identity" //登录api
-import { sendVerificationCode } from "@/api/user" //验证码api
+//api
+import { login } from "@/api/identity/login" //登录api
+import { sendVerificationCode } from "@/api/identity/vcode" //验证码api
+//接口
+import { LoginPayload } from "@/interface/identity/login"
+import { SendVCode } from "@/interface/identity/vcode"
 
 const router = useRouter()
 const route = useRoute()

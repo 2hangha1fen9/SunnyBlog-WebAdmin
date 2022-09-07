@@ -30,11 +30,11 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
             <el-table-column type="selection" fixed width="55" />
             <el-table-column prop="id" fixed label="编号" width="100">
                 <template #header>
-                    <el-button type="success" size="small" @click="handleDialogVisible({}, true)">添加用户</el-button>
+                    <el-button size="small" @click="handleDialogVisible({}, true)">添加用户</el-button>
                 </template>
             </el-table-column>
             <el-table-column prop="username" fixed label="登录名" width="150"></el-table-column>
@@ -60,7 +60,7 @@
                                 <el-button type="danger" size="small">删除</el-button>
                             </template>
                         </el-popconfirm>
-                        <el-button type="success" size="small" @click="handleBindDialogVisible(scope.row)">分配角色</el-button>
+                        <el-button size="small" type="success" @click="handleBindDialogVisible(scope.row)">分配角色</el-button>
                     </el-button-group>
                 </template>
             </el-table-column>
@@ -90,14 +90,16 @@
 <script setup lang="ts">
 import { reactive, watch, ref, computed } from "vue"
 import { ElMessage, ElTable } from "element-plus"
-import { listUser, delUser, updateUser } from "@/api/user"
-import { UserInfo, UserId } from "@/interface/user"
-import { Response, PageBean } from "@/interface/response"
-import { SearchCondidtion } from "@/interface/search-condition"
 import { debounce, throttle } from "lodash" //引入防抖节流
 import EditorPanel from "./components/UserEditorPanel.vue"
 import UserRoleBind from "./components/UserRoleBindPanel.vue"
 import { dateFormatter } from "@/utils/converter"
+//api
+import { listUser, delUser, updateUser } from "@/api/user/user"
+//接口
+import { UserInfo, UserId } from "@/interface/user/user"
+import { Response, PageBean } from "@/interface/common/response"
+import { SearchCondidtion } from "@/interface/common/search-condition"
 
 //数据
 const tableLoading = ref(false) //表格加载动画

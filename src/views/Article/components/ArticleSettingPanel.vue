@@ -65,11 +65,18 @@
 import { reactive, ref } from "vue"
 import { useStore } from "vuex"
 import { useRouter } from "vue-router"
-import { Article, Region, Tag } from "@/interface/article"
-import { Response } from "@/interface/response"
 import { ElMessage, UploadFile } from "element-plus"
 import type { FormRules, FormInstance } from "element-plus"
-import { updateArticle, publishArticle, uploadPicture, listRegion, listPublicTag, listUserTag } from "@/api/article"
+// 接口
+import { Article } from "@/interface/article/article"
+import { Region } from "@/interface/article/region"
+import { Tag } from "@/interface/article/tag"
+import { Response } from "@/interface/common/response"
+// api
+import { updateArticle, publishArticle } from "@/api/article/article"
+import { uploadPicture } from "@/api/article/drawing-bed"
+import { listRegion } from "@/api/article/region"
+import { listPublicTag, listUserTag } from "@/api/article/tag"
 
 const router = useRouter()
 const store = useStore()
@@ -230,7 +237,7 @@ if (props.isEdit) {
 }
 </script>
 
-<style scope>
+<style scoped>
 .submit {
     display: flex;
     justify-content: flex-end;

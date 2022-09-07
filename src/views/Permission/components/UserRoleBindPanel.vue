@@ -23,10 +23,15 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { ElMessage } from "element-plus"
-import { Response, PageBean } from "@/interface/response"
-import { Role } from "@/interface/identity"
-import { UserInfo } from "@/interface/user"
-import { listRole, listUserRole, userRoleBind } from "@/api/identity"
+//api
+import { listRole, listUserRole } from "@/api/identity/role"
+import { userRoleBind } from "@/api/identity/relation"
+//接口
+import { Response, PageBean } from "@/interface/common/response"
+import { Role } from "@/interface/identity/role"
+import { UserInfo } from "@/interface/user/user"
+
+
 const props = defineProps<{
     user: UserInfo
 }>()

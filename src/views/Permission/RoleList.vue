@@ -29,10 +29,10 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
             <el-table-column prop="id" label="编号" width="100">
                 <template #header>
-                    <el-button type="success" size="small" @click="handleDialogVisible({}, true)">添加角色</el-button>
+                    <el-button size="small" @click="handleDialogVisible({}, true)">添加角色</el-button>
                 </template>
             </el-table-column>
             <el-table-column prop="name" label="角色名"></el-table-column>
@@ -80,14 +80,16 @@
 <script setup lang="ts">
 import { reactive, ref, computed, watch } from "vue"
 import { ElMessage, ElTable } from "element-plus"
-import { Role } from "@/interface/identity"
-import { SearchCondidtion } from "@/interface/search-condition"
-import { PageBean, Response } from "@/interface/response"
-import { listRole, updateRole, delRole } from "@/api/identity"
 import { debounce, throttle } from "lodash" //引入防抖节流
 import { dateTimeFormatter } from "@/utils/converter"
 import RoleEditorPanel from "./components/RoleEditorPanel.vue"
 import RolePermissionBindPanel from "./components/RolePermissionBindPanel.vue"
+//接口
+import { Role } from "@/interface/identity/role"
+import { SearchCondidtion } from "@/interface/common/search-condition"
+import { PageBean, Response } from "@/interface/common/response"
+//api
+import { listRole, updateRole, delRole } from "@/api/identity/role"
 
 const tableLoading = ref(false) //表格加载动画
 const dialogVisible = ref(false) //对话框显示状态

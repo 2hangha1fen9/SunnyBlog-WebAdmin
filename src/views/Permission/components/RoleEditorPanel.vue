@@ -17,10 +17,13 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import { Role } from "@/interface/identity"
 import { ElMessage } from "element-plus"
 import type { FormRules, FormInstance } from "element-plus"
-import { updateRole, addRole } from "@/api/identity"
+//api
+import { updateRole, addRole } from "@/api/identity/role"
+//接口
+import { Role } from "@/interface/identity/role"
+
 const props = defineProps<{
     role: Role
     isAdd: boolean //true添加  false修改

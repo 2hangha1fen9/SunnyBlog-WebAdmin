@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Layout from '@/layout/Layout.vue'
+import Layout from '@/views/Layout/Layout.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -35,13 +35,21 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
+                path: '/article/region',
+                component: () => import('@/views/Article/RegionList.vue'),
+                meta: {
+                    title: '分区列表',
+                    icon: 'region'
+                }
+            },
+            {
                 path: '/article/editor',
                 component: () => import('@/views/Article/ArticleEditor.vue'),
                 meta: {
                     title: '发布文章',
                     icon: 'articlePublish'
                 }
-            }
+            },
         ]
     },
     {

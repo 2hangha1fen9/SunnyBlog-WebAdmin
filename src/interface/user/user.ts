@@ -1,9 +1,3 @@
-//验证码
-export interface SendVCode {
-    type: string
-    receciver: string
-}
-
 //用户详情
 export interface UserInfo {
     id: number

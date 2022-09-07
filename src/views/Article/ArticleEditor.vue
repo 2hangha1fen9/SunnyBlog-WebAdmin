@@ -12,16 +12,19 @@
 </template>
 
 <script setup lang="ts">
+import Vditor from "vditor"
+import "vditor/dist/index.css"
 import { ref, onMounted } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { ElMessage } from "element-plus"
-import { uploadPicture } from "@/api/article"
-import { Article } from "@/interface/article"
-import { Response } from "@/interface/response"
-import { updateArticle, getArticle } from "@/api/article"
 import ArticleSettingPanel from "./components/ArticleSettingPanel.vue"
-import Vditor from "vditor"
-import "vditor/dist/index.css"
+//接口
+import { Article } from "@/interface/article/article"
+import { Response } from "@/interface/common/response"
+// api
+import { uploadPicture } from "@/api/article/drawing-bed"
+import { updateArticle, getArticle } from "@/api/article/article"
+
 
 const router = useRouter()
 const route = useRoute()
@@ -69,6 +72,10 @@ function saveArticle() {
     } else {
         dialogVisible.value = true
     }
+}
+
+function demo() {
+    console.log(vditor.value?.getValue())
 }
 
 //markdown编辑器

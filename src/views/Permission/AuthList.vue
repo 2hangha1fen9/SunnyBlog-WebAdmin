@@ -29,7 +29,7 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
             <el-table-column prop="id" label="编号" width="70"></el-table-column>
             <el-table-column prop="service" label="服务" width="150"></el-table-column>
             <el-table-column prop="controller" label="资源" width="100"></el-table-column>
@@ -96,12 +96,14 @@
 <script setup lang="ts">
 import { reactive, ref, computed, watch } from "vue"
 import { ElMessage, ElTable } from "element-plus"
-import { Permission } from "@/interface/identity"
-import { SearchCondidtion } from "@/interface/search-condition"
-import { PageBean, Response } from "@/interface/response"
-import { listPermission, updatePermission } from "@/api/identity"
 import { debounce, throttle } from "lodash" //引入防抖节流
 import { dateTimeFormatter } from "@/utils/converter"
+//接口
+import { Permission } from "@/interface/identity/permission"
+import { SearchCondidtion } from "@/interface/common/search-condition"
+import { PageBean, Response } from "@/interface/common/response"
+//api
+import { listPermission, updatePermission } from "@/api/identity/permission"
 
 const btnLoading = ref(false)
 const tableLoading = ref(false) //表格加载动画

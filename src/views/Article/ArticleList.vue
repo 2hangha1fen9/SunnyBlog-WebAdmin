@@ -36,7 +36,7 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
             <el-table-column type="selection" fixed width="55" />
             <el-table-column prop="id" label="编号" />
             <el-table-column prop="username" label="作者" width="120" />
@@ -102,13 +102,15 @@
 import { reactive, watch, ref, computed, onMounted } from "vue"
 import { useRouter } from "vue-router"
 import { ElMessage, ElTable } from "element-plus"
-import { listArticle, delArticle } from "@/api/article"
-import { Article, ArticleId } from "@/interface/article"
-import { Response, PageBean } from "@/interface/response"
-import { SearchCondidtion } from "@/interface/search-condition"
-import { throttle } from "lodash" //引入防抖节流
 import ArticleSettingPanel from "./components/ArticleSettingPanel.vue"
 import { dateTimeFormatter } from "@/utils/converter"
+import { throttle } from "lodash" //引入防抖节流
+//api
+import { listArticle, delArticle } from "@/api/article/article"
+//接口
+import { Article, ArticleId } from "@/interface/article/article"
+import { Response, PageBean } from "@/interface/common/response"
+import { SearchCondidtion } from "@/interface/common/search-condition"
 
 const router = useRouter()
 //数据
@@ -258,7 +260,7 @@ function createTimeFormatter(row: Article) {
     return dateTimeFormatter(row.createTime)
 }
 function updateTimeFormatter(row: Article) {
-    return dateTimeFormatter(row.createTime)
+    return dateTimeFormatter(row.updateTime)
 }
 
 onMounted(() => {

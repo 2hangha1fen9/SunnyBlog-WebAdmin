@@ -1,4 +1,4 @@
-import App from '@/interface/app'
+import App from '@/interface/common/app'
 const state: App = {
     sidebar: {
         //!!+ 字符串转boolean

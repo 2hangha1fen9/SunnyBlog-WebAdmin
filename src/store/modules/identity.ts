@@ -1,4 +1,4 @@
-import { Jwt, JwtPayload, Token } from '@/interface/identity'
+import { Jwt, JwtPayload, Token } from '@/interface/identity/jwt'
 import jwtDecode from 'jwt-decode'
 const state: Jwt = {
     jwt: JSON.parse(localStorage.getItem('jwt') ?? '{"token":"","expiration":0}') as Jwt['jwt']

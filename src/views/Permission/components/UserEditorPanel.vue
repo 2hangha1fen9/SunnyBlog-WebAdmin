@@ -43,11 +43,15 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import { UserInfo } from "@/interface/user"
-import { Response } from "@/interface/response"
 import { ElMessage, UploadFile } from "element-plus"
 import type { FormRules, FormInstance } from "element-plus"
-import { uploadAvatar, updateUser, addUser } from "@/api/user"
+//api
+import { updateUser, addUser } from "@/api/user/user"
+import { uploadAvatar } from "@/api/user/avatar"
+//接口
+import { UserInfo } from "@/interface/user/user"
+import { Response } from "@/interface/common/response"
+
 const props = defineProps<{
     user: UserInfo
     isAdd: boolean

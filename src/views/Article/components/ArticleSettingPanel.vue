@@ -185,6 +185,7 @@ async function save(form: FormInstance) {
                 })
             }
         } else {
+            loading.value = false
             return false
         }
     })

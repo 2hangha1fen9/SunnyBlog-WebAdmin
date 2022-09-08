@@ -61,32 +61,34 @@ const rules = reactive<FormRules>({
 //保存信息
 async function saveRegion(form: FormInstance) {
     await form.validate((valid, fields) => {
-        loading.value = true
-        if (props.isEdit) {
-            updateRegion(region.value).then((data: Response<string>) => {
-                if (data.status === 200) {
-                    ElMessage.success("操作成功")
-                    setTimeout(() => {
-                        emits("closeDialog")
-                        emits("updateState")
-                        loading.value = false
-                    }, 2000)
-                } else {
-                    ElMessage.warning(data.message)
-                }
-            })
-        } else {
-            addRegion(region.value).then((data: Response<string>) => {
-                if (data.status === 200) {
-                    setTimeout(() => {
-                        emits("closeDialog")
-                        emits("updateState")
-                        loading.value = false
-                    }, 2000)
-                } else {
-                    ElMessage.warning(data.message)
-                }
-            })
+        if (valid) {
+            loading.value = true
+            if (props.isEdit) {
+                updateRegion(region.value).then((data: Response<string>) => {
+                    if (data.status === 200) {
+                        ElMessage.success("操作成功")
+                        setTimeout(() => {
+                            emits("closeDialog")
+                            emits("updateState")
+                            loading.value = false
+                        }, 2000)
+                    } else {
+                        ElMessage.warning(data.message)
+                    }
+                })
+            } else {
+                addRegion(region.value).then((data: Response<string>) => {
+                    if (data.status === 200) {
+                        setTimeout(() => {
+                            emits("closeDialog")
+                            emits("updateState")
+                            loading.value = false
+                        }, 2000)
+                    } else {
+                        ElMessage.warning(data.message)
+                    }
+                })
+            }
         }
     })
 }

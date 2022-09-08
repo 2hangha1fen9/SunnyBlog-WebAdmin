@@ -9,9 +9,8 @@
                 children: 'inverseParent',
                 hasChildren: 'inverseParent.length',
             }"
-            default-expand-all
             ref="tableRef"
-            indent="30"
+            :indent="30"
             row-key="id"
             current-row-key="id"
             v-loading="tableLoading"
@@ -27,15 +26,15 @@
             <el-table-column fixed="right" width="120" label="操作">
                 <template #default="scope">
                     <el-button-group>
-                        <el-popover show-after="300" hide-after="300">
+                        <el-popover :show-after="200" ref="popover">
                             <template #reference>
                                 <el-button type="primary" size="small" @click="handleDialogVisible(scope.row, true)">编辑</el-button>
                             </template>
-                            <el-input placeholder="添加子级" size="small" v-model="quickAddRegionName" @keydown.enter="quickAddRegion(scope.row)"></el-input>
+                            <el-input placeholder="添加子级" size="small" v-model="quickAddRegionName" @focus="popover.popover = true" @keydown.enter="quickAddRegion(scope.row)"></el-input>
                         </el-popover>
-                        <el-popconfirm title="您确定要删除这条记录吗" @confirm="handleSingleDelete(scope.row)">
+                        <el-popconfirm title="您确定要删除这条记录吗" v-if="!scope.row.inverseParent.length" @confirm="handleSingleDelete(scope.row)">
                             <template #reference>
-                                <el-button type="danger" size="small" v-if="!scope.row.inverseParent.length">删除</el-button>
+                                <el-button type="danger" size="small">删除</el-button>
                             </template>
                         </el-popconfirm>
                     </el-button-group>
@@ -53,7 +52,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { ElMessage, ElTable } from "element-plus"
+import { ElMessage, ElTable, ElPopover } from "element-plus"
 import { debounce, throttle } from "lodash" //引入防抖节流
 import RegionEditorPanel from "./components/RegionEditorPanel.vue"
 // api
@@ -68,7 +67,8 @@ const dialogVisible = ref(false)
 const isEdit = ref(true) //对话框模式
 const rowRef = ref<Region>({}) //当前行的引用
 const quickAddRegionName = ref<string>() //快速添加子级输入框引用
-const expand = ref(false) //是否展开全部
+const popover = ref<ElPopover>() //是气泡框输入时显示控制
+
 const listRegion = throttle(function () {
     tableLoading.value = true
     listAllRegion().then((data: Response<Array<Region>>) => {

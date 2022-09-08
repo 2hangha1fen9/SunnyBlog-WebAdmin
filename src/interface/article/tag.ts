@@ -3,4 +3,9 @@ export interface Tag {
     userId: number
     name: string
     color: string
+    isPrivate: number,
+    articleCount: number
+}
+export interface TagId{
+    id:number
 }

@@ -43,6 +43,14 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
+                path: '/article/tag',
+                component: () => import('@/views/Article/TagList.vue'),
+                meta: {
+                    title: '标签列表',
+                    icon: 'tags'
+                }
+            },
+            {
                 path: '/article/editor',
                 component: () => import('@/views/Article/ArticleEditor.vue'),
                 meta: {

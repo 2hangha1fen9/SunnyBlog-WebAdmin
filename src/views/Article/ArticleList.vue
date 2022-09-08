@@ -41,7 +41,7 @@
             <el-table-column prop="id" label="编号" />
             <el-table-column prop="username" label="作者" width="120" />
             <el-table-column prop="title" fixed label="文章标题" min-width="300" />
-            <el-table-column prop="regionName" label="分区" min-width="90" />
+            <el-table-column prop="regionName" label="分区" min-width="100" />
             <el-table-column prop="createTime" label="发布时间" :formatter="createTimeFormatter" width="200"></el-table-column>
             <el-table-column prop="updateTime" label="更新时间" :formatter="updateTimeFormatter" width="200"></el-table-column>
             <el-table-column prop="status" fixed="right" width="90" label="状态">

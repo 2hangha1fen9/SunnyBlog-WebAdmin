@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { Tag,TagId } from '@/interface/article/tag'
 
 //获取所有标签
 export function listAllTag() {
@@ -22,5 +23,29 @@ export function listUserTag(uid: number) {
         params: {
             uid: uid
         }
+    })
+}
+//更新标签
+export function updateTag(tag: Tag) {
+    return request({
+        url: '/article-service/manager/updateTag',
+        method: 'put',
+        data: tag
+    })
+}
+//添加标签
+export function addTag(tag: Tag) {
+    return request({
+        url: '/article-service/tag/create',
+        method: 'post',
+        data: tag
+    })
+}
+//删除标签
+export function delTag(ids: Array<TagId>){
+    return request({
+        url: '/article-service/manager/deleteTag',
+        method: 'delete',
+        data: ids
     })
 }

@@ -10,7 +10,7 @@
             </el-radio-group>
         </el-form-item>
         <div class="submit">
-            <el-button type="primary" :loading="btnLoading" @click="saveRoleInfo(formRef)">提交</el-button>
+            <el-button type="primary" :loading="btnLoading"  @click="saveRoleInfo(formRef)">提交</el-button>
         </div>
     </el-form>
 </template>

@@ -31,7 +31,6 @@ import { Response, PageBean } from "@/interface/common/response"
 import { Role } from "@/interface/identity/role"
 import { UserInfo } from "@/interface/user/user"
 
-
 const props = defineProps<{
     user: UserInfo
 }>()

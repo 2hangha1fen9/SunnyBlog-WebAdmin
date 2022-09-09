@@ -16,7 +16,7 @@
         class="transfer"
     />
     <div class="submit">
-        <el-button type="primary" :loading="btnLoading" @click="saveRolePermission">提交</el-button>
+        <el-button type="primary" :loading="btnLoading"  @click="saveRolePermission">提交</el-button>
     </div>
 </template>
 
@@ -28,7 +28,7 @@ import { Response, PageBean } from "@/interface/common/response"
 import { Permission } from "@/interface/identity/permission"
 import { Role } from "@/interface/identity/role"
 //api
-import { listPermission, listRolePermission}from "@/api/identity/permission"
+import { listPermission, listRolePermission } from "@/api/identity/permission"
 import { rolePermissionBind } from "@/api/identity/relation"
 
 const props = defineProps<{

@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/article/list',
                 component: () => import("@/views/Article/ArticleList.vue"),
                 meta: {
-                    title: '文章列表',
+                    title: '文章管理',
                     icon: 'articlelist',
                 }
             },
@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/article/region',
                 component: () => import('@/views/Article/RegionList.vue'),
                 meta: {
-                    title: '分区列表',
+                    title: '分区管理',
                     icon: 'region'
                 }
             },
@@ -46,7 +46,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/article/tag',
                 component: () => import('@/views/Article/TagList.vue'),
                 meta: {
-                    title: '标签列表',
+                    title: '标签管理',
                     icon: 'tags'
                 }
             },
@@ -58,6 +58,33 @@ const routes: Array<RouteRecordRaw> = [
                     icon: 'articlePublish'
                 }
             },
+        ]
+    },
+    {
+        path: '/comment',
+        component: Layout,
+        redirect: '/comment/list',
+        meta: {
+            title: '互动',
+            icon: 'comment'
+        },
+        children: [
+            {
+                path: '/comment/list',
+                component: () => import("@/views/Comment/CommentList.vue"),
+                meta: {
+                    title: '评论管理',
+                    icon: 'commentList'
+                }
+            },
+            {
+                path: '/comment/view',
+                component: () => import('@/views/Comment/ViewList.vue'),
+                meta: {
+                    title: '浏览历史',
+                    icon: 'history'
+                }
+            }
         ]
     },
     {
@@ -100,7 +127,7 @@ const routes: Array<RouteRecordRaw> = [
         component: Layout,
         redirect: '/maintin/apollo',
         meta: {
-            title: '系统维护',
+            title: '系统',
             icon: 'maintin'
         },
         children: [

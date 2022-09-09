@@ -199,7 +199,9 @@ function handleManyDelete() {
     delUser(ids).then((data: Response<string>) => {
         if (data.status === 200) {
             ElMessage.success(data.message)
-            getUserList()
+            state.page = state.page.filter((item: UserInfo) => {
+                return ids.find((i:UserId) => i.id === item.id) !== item.id
+            })
         } else {
             ElMessage.error(data.message)
         }

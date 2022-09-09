@@ -22,7 +22,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="clearForm">重置</el-button>
-                    <el-button type="success" :loading="loading" @click="saveTag(formRef, state.id ? true : false)">{{ state.id ? "修改" : "添加" }}</el-button>
+                    <el-button type="success" :loading="loading" @keyup.enter="saveTag(formRef, state.id ? true : false)" @click="saveTag(formRef, state.id ? true : false)">{{ state.id ? "修改" : "添加" }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>

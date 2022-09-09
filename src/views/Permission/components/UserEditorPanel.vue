@@ -36,7 +36,7 @@
             <el-switch size="large" v-model="user.status" :active-value="1" :inactive-value="-1" />
         </el-form-item>
         <div class="submit">
-            <el-button type="primary" :loading="loading" @click="saveUserInfo(formRef)">提交</el-button>
+            <el-button type="primary" :loading="loading" @click="saveUserInfo(formRef)" >提交</el-button>
         </div>
     </el-form>
 </template>

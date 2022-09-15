@@ -1,5 +1,5 @@
-import {Category} from './category'
-import {Tag} from './tag'
+import { Category } from './category'
+import { Tag } from './tag'
 
 export interface Article {
     id: number
@@ -9,6 +9,8 @@ export interface Article {
     title: string
     summary: string
     content: string
+    codeStyle: string
+    contentStyle: string
     photo: string
     regionName: string
     regionId: number

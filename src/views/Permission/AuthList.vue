@@ -8,19 +8,35 @@
                 </el-select>
                 <el-button-group class="btn-group">
                     <el-button type="primary" @click="getPermissionList">搜索</el-button>
-                    <el-button type="primary" @click="selectCondidtion = []">重置</el-button>
+                    <el-button type="primary" @click="resetCondidtion">重置</el-button>
                 </el-button-group>
             </template>
             <div class="values">
                 <p v-for="con in searchCondidtion" :key="con.key" class="values-item">
-                    <el-radio-group v-if="con.isState && con.key === 'status'" v-model="con.value">
-                        <el-radio-button :label="1">启用</el-radio-button>
-                        <el-radio-button :label="-1">禁用</el-radio-button>
-                    </el-radio-group>
-                    <el-radio-group v-else-if="con.isState && con.key === 'isPublic'" v-model="con.value">
-                        <el-radio-button :label="1">开启</el-radio-button>
-                        <el-radio-button :label="-1">关闭</el-radio-button>
-                    </el-radio-group>
+                    <el-tooltip v-if="con.isState && con.key === 'status'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.value">
+                            <el-radio-button :label="1">启用</el-radio-button>
+                            <el-radio-button :label="-1">禁用</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'isPublic'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.value">
+                            <el-radio-button :label="1">开启</el-radio-button>
+                            <el-radio-button :label="-1">关闭</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'createTime'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.sort">
+                            <el-radio-button :label="1">{{ con.label }} 升序</el-radio-button>
+                            <el-radio-button :label="-1">{{ con.label }} 降序</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'updateTime'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.sort">
+                            <el-radio-button :label="1">{{ con.label }} 升序</el-radio-button>
+                            <el-radio-button :label="-1">{{ con.label }} 降序</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
                     <el-input v-else v-model="con.value" @keyup.enter="getPermissionList">
                         <template #prepend>
                             <span>{{ con.label }}</span>
@@ -146,6 +162,18 @@ const condidtion = [
         value: "1",
         isState: true,
     },
+    {
+        key: "createTime",
+        label: "创建时间",
+        isState: true,
+        sort: 0,
+    },
+    {
+        key: "updateTime",
+        label: "更新时间",
+        isState: true,
+        sort: 0,
+    }
 ]
 //已选条件
 const selectCondidtion = ref([])
@@ -157,6 +185,12 @@ const searchCondidtion = computed(() =>
         })
     )
 )
+//重置筛选条件
+function resetCondidtion() {
+    selectCondidtion.value = []
+    getPermissionList()
+}
+
 //获取数据方法
 const getPermissionList = throttle(function () {
     tableLoading.value = true

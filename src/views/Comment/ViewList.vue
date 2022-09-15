@@ -8,15 +8,23 @@
                 </el-select>
                 <el-button-group class="btn-group">
                     <el-button type="primary" @click="getUserViewHistoryList">搜索</el-button>
-                    <el-button type="primary" @click="selectCondidtion = []">重置</el-button>
+                    <el-button type="primary" @click="resetCondidtion">重置</el-button>
                 </el-button-group>
             </template>
             <div class="values">
-                <el-input class="values-item" v-for="con in searchCondidtion" :key="con.key" v-model="con.value" @keyup.enter="getUserViewHistoryList">
-                    <template #prepend>
-                        <span>{{ con.label }}</span>
-                    </template>
-                </el-input>
+                <p v-for="con in searchCondidtion" :key="con.key">
+                    <el-tooltip v-if="con.isState && con.key === 'viewTime'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.sort">
+                            <el-radio-button :label="1">{{ con.label }} 升序</el-radio-button>
+                            <el-radio-button :label="-1">{{ con.label }} 降序</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-input v-else class="values-item" v-model="con.value" @keyup.enter="getUserViewHistoryList">
+                        <template #prepend>
+                            <span>{{ con.label }}</span>
+                        </template>
+                    </el-input>
+                </p>
             </div>
         </el-card>
         <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
@@ -27,7 +35,7 @@
             </el-table-column>
             <el-table-column prop="ip" label="IP" min-width="80" />
             <el-table-column prop="articleTitle" label="文章标题" min-width="200" />
-            <el-table-column prop="viewTime" label="访问时间" width="160" :formatter="viewTimeFormatter" />
+            <el-table-column prop="viewTime" label="访问时间" width="180" :formatter="viewTimeFormatter" />
             <template #empty>
                 <el-empty description="什么也没有" />
             </template>
@@ -70,6 +78,12 @@ const condidtion = [
         value: "",
         label: "文章标题",
     },
+    {
+        key: "viewTime",
+        label: "访问时间",
+        isState: true,
+        sort: 0,
+    },
 ]
 //已选条件
 const selectCondidtion = ref([])
@@ -81,6 +95,12 @@ const searchCondidtion = computed(() =>
         })
     )
 )
+//重置筛选条件
+function resetCondidtion() {
+    selectCondidtion.value = []
+    getUserViewHistoryList()
+}
+
 //获取数据方法
 const getUserViewHistoryList = throttle(function () {
     tableLoading.value = true
@@ -117,7 +137,7 @@ getUserViewHistoryList()
 }
 .footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding-top: 10px;
 }

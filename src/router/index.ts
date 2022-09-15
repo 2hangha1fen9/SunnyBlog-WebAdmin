@@ -125,12 +125,20 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/maintin',
         component: Layout,
-        redirect: '/maintin/apollo',
+        redirect: '/maintin/setting',
         meta: {
             title: '系统',
             icon: 'maintin'
         },
         children: [
+            {
+                path: '/maintin/setting',
+                meta: {
+                    title: '全局设置',
+                    icon: 'setting',
+                },
+                component: () => import('@/views/Setting/SettingPanel.vue'),
+            },
             {
                 path: '/maintin/consul',
                 component: () => import('@/views/Maintin/Iframe.vue'),

@@ -8,15 +8,23 @@
                 </el-select>
                 <el-button-group class="btn-group">
                     <el-button type="primary" @click="getCommentList">搜索</el-button>
-                    <el-button type="primary" @click="selectCondidtion = []">重置</el-button>
+                    <el-button type="primary" @click="resetCondidtion">重置</el-button>
                 </el-button-group>
             </template>
             <div class="values">
                 <p v-for="con in searchCondidtion" :key="con.key" class="values-item">
-                    <el-radio-group v-if="con.isState && con.key === 'status'" v-model="con.value">
-                        <el-radio-button :label="1">审核通过</el-radio-button>
-                        <el-radio-button :label="-1">待审核</el-radio-button>
-                    </el-radio-group>
+                    <el-tooltip v-if="con.isState && con.key === 'status'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.value">
+                            <el-radio-button :label="1">审核通过</el-radio-button>
+                            <el-radio-button :label="-1">待审核</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'createTime'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.sort">
+                            <el-radio-button :label="1">{{ con.label }} 升序</el-radio-button>
+                            <el-radio-button :label="-1">{{ con.label }} 降序</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
                     <el-input v-else v-model="con.value" @keyup.enter="getCommentList">
                         <template #prepend>
                             <span>{{ con.label }}</span>
@@ -34,7 +42,7 @@
                     <span>{{ scope.row.username }}/{{ scope.row.nick }}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" width="160" :formatter="createTimeFormatter"/>
+            <el-table-column prop="createTime" label="创建时间" width="180" :formatter="createTimeFormatter" />
             <el-table-column prop="status" fixed="right" width="100" label="状态">
                 <template #default="scope">
                     <el-tag v-if="scope.row.status === -1" type="prmiary">待审核</el-tag>
@@ -114,6 +122,12 @@ const condidtion = [
         label: "状态",
         isState: true,
     },
+    {
+        key: "createTime",
+        label: "创建时间",
+        isState: true,
+        sort: 0,
+    },
 ]
 //已选条件
 const selectCondidtion = ref([])
@@ -125,6 +139,12 @@ const searchCondidtion = computed(() =>
         })
     )
 )
+//重置筛选条件
+function resetCondidtion() {
+    selectCondidtion.value = []
+    getCommentList()
+}
+
 //获取数据方法
 const getCommentList = throttle(function () {
     tableLoading.value = true

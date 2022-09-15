@@ -8,26 +8,44 @@
                 </el-select>
                 <el-button-group class="btn-group">
                     <el-button type="primary" @click="getArticleList">搜索</el-button>
-                    <el-button type="primary" @click="selectCondidtion = []">重置</el-button>
+                    <el-button type="primary" @click="resetCondidtion">重置</el-button>
                 </el-button-group>
             </template>
             <div class="values">
                 <p v-for="con in searchCondidtion" :key="con.key" class="values-item">
-                    <el-radio-group v-if="con.isState && con.key === 'status'" v-model="con.value">
-                        <el-radio-button :label="-1">待审核</el-radio-button>
-                        <el-radio-button :label="1">已发布</el-radio-button>
-                        <el-radio-button :label="2">私有</el-radio-button>
-                        <el-radio-button :label="3">回收站</el-radio-button>
-                    </el-radio-group>
-                    <el-radio-group v-else-if="con.isState && con.key === 'commentStatus'" v-model="con.value">
-                        <el-radio-button :label="-1">禁止评论</el-radio-button>
-                        <el-radio-button :label="1">允许评论</el-radio-button>
-                        <el-radio-button :label="2">需要审核</el-radio-button>
-                    </el-radio-group>
-                    <el-radio-group v-else-if="con.isState && con.key === 'isLock'" v-model="con.value">
-                        <el-radio-button :label="-1">锁定</el-radio-button>
-                        <el-radio-button :label="1">未锁定</el-radio-button>
-                    </el-radio-group>
+                    <el-tooltip v-if="con.isState && con.key === 'status'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.value">
+                            <el-radio-button :label="-1">待审核</el-radio-button>
+                            <el-radio-button :label="1">已发布</el-radio-button>
+                            <el-radio-button :label="2">私有</el-radio-button>
+                            <el-radio-button :label="3">回收站</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'commentStatus'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.value">
+                            <el-radio-button :label="-1">禁止评论</el-radio-button>
+                            <el-radio-button :label="1">允许评论</el-radio-button>
+                            <el-radio-button :label="2">需要审核</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'isLock'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.value">
+                            <el-radio-button :label="-1">锁定</el-radio-button>
+                            <el-radio-button :label="1">未锁定</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'createTime'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.sort">
+                            <el-radio-button :label="1">{{ con.label }} 升序</el-radio-button>
+                            <el-radio-button :label="-1">{{ con.label }} 降序</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
+                    <el-tooltip v-else-if="con.isState && con.key === 'updateTime'" :content="con.label" placement="bottom">
+                        <el-radio-group v-model="con.sort">
+                            <el-radio-button :label="1">{{ con.label }} 升序</el-radio-button>
+                            <el-radio-button :label="-1">{{ con.label }} 降序</el-radio-button>
+                        </el-radio-group>
+                    </el-tooltip>
                     <el-input v-else v-model="con.value" @keyup.enter="getArticleList">
                         <template #prepend>
                             <span>{{ con.label }}</span>
@@ -160,6 +178,18 @@ const condidtion = [
         value: "1",
         isState: true,
     },
+    {
+        key: "createTime",
+        label: "发布时间",
+        sort: 0,
+        isState: true,
+    },
+    {
+        key: "updateTime",
+        label: "更新时间",
+        sort: 0,
+        isState: true,
+    },
 ]
 //已选条件
 const selectCondidtion = ref([])
@@ -171,6 +201,12 @@ const searchCondidtion = computed(() =>
         })
     )
 )
+//重置筛选条件
+function resetCondidtion() {
+    selectCondidtion.value = []
+    getArticleList()
+}
+
 //获取数据方法
 const getArticleList = throttle(function () {
     tableLoading.value = true

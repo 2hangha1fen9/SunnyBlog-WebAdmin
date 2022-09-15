@@ -25,7 +25,6 @@ import { Response } from "@/interface/common/response"
 import { uploadPicture } from "@/api/article/drawing-bed"
 import { updateArticle, getArticle } from "@/api/article/article"
 
-
 const router = useRouter()
 const route = useRoute()
 
@@ -40,7 +39,9 @@ const article = ref<Article>({})
 function initArticle() {
     getArticle(articleId).then((data: Response<Article>) => {
         article.value = data.result
+        vditor.value?.setTheme("classic", data.result.contentStyle, data.result.codeStyle)
         vditor.value?.setValue(data.result.content)
+        
         //将分类数据,标签数据转换为ID数组
         let tagIds = []
         article.value.tags.forEach((item) => {
@@ -58,6 +59,9 @@ function initArticle() {
 function saveArticle() {
     btnLoading.value = true
     article.value.content = vditor.value?.getValue()
+    article.value.contentStyle = vditor.value?.vditor.options.preview?.theme?.current
+    article.value.codeStyle = vditor.value?.vditor.options.preview?.hljs?.style
+
     if (isEdit) {
         //编辑模式
         updateArticle(article.value).then((data: Response<string>) => {
@@ -72,10 +76,6 @@ function saveArticle() {
     } else {
         dialogVisible.value = true
     }
-}
-
-function demo() {
-    console.log(vditor.value?.getValue())
 }
 
 //markdown编辑器

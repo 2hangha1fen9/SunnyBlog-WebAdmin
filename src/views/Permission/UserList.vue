@@ -40,7 +40,7 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" v-loading="tableLoading">
             <el-table-column type="selection" fixed width="55" />
             <el-table-column prop="id" fixed label="编号" width="100">
                 <template #header>

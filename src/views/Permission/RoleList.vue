@@ -45,7 +45,7 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" v-loading="tableLoading">
             <el-table-column prop="id" label="编号" width="100">
                 <template #header>
                     <el-button size="small" @click="handleDialogVisible({}, true)">添加角色</el-button>

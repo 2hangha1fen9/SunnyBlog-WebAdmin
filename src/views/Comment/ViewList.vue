@@ -27,7 +27,7 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef"  v-loading="tableLoading">
             <el-table-column prop="username" label="用户名/昵称" width="180">
                 <template #default="scope">
                     <span>{{ scope.row.username }}/{{ scope.row.nick }}</span>

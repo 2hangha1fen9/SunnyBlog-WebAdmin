@@ -45,7 +45,7 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef" row-key="id" current-row-key="id" v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" v-loading="tableLoading">
             <el-table-column prop="id" label="编号" width="70"></el-table-column>
             <el-table-column prop="service" label="服务" width="150"></el-table-column>
             <el-table-column prop="controller" label="资源" width="100"></el-table-column>
@@ -173,7 +173,7 @@ const condidtion = [
         label: "更新时间",
         isState: true,
         sort: 0,
-    }
+    },
 ]
 //已选条件
 const selectCondidtion = ref([])

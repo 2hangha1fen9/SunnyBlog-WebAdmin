@@ -9,7 +9,7 @@ module.exports = defineConfig({
     lintOnSave: false,
     transpileDependencies: true,
     devServer: {
-        port: 8081,
+        port: 7071,
     },
     pluginOptions: {
         //sass样式加载

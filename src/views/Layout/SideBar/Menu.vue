@@ -23,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+import { RouteRecordRaw } from "vue-router"
 defineProps<{
     // eslint-disable-next-line no-undef
     item: RouteRecordRaw

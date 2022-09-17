@@ -205,7 +205,6 @@ async function handleLogin(form: FormInstance) {
 }
 //发送验证码方法
 async function handleSend(form: FormInstance) {
-    if (sendButton.canSend) return
     //发送验证码
     await form.validateField("username", (valid) => {
         if (valid) {

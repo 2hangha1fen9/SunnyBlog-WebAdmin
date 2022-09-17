@@ -6,10 +6,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './styles/transition.scss'
+//全局路由守卫
 import '@/router/router-guard'
 //引入自定义图标
 import SvgIcon from '@/components/SvgIcon.vue'
-//全局路由守卫
 import '@/icons'
 
 const app = createApp(App)

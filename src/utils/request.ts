@@ -43,6 +43,12 @@ service.interceptors.response.use(
     error => {
         if (error.message == "Request failed with status code 401") {
             ElMessage({
+                message: '您没有登录',
+                type: 'warning',
+            })
+        }
+        else if (error.message == "Request failed with status code 403") {
+            ElMessage({
                 message: '您没有权限',
                 type: 'warning',
             })

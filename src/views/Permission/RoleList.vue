@@ -260,7 +260,7 @@ getRoleList()
 <style scoped>
 .footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding-top: 10px;
 }

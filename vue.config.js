@@ -9,13 +9,7 @@ module.exports = defineConfig({
     lintOnSave: false,
     transpileDependencies: true,
     devServer: {
-        proxy: {
-            "/apollo": {
-                target: "http://10.4.7.99:8070",
-                ws: true,
-                changeOrigin: true,
-            },
-        },
+        port: 8081,
     },
     pluginOptions: {
         //sass样式加载

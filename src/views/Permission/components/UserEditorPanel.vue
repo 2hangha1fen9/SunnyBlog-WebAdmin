@@ -6,9 +6,13 @@
             </el-upload>
         </el-form-item>
         <el-form-item label="登录名" required prop="username">
-            <el-input v-model="user.username" :disabled="!mode" />
+            <el-input v-model="user.username" :disabled="!mode">
+                <template #[showChangePasswordBtn]>
+                    <el-button type="primary" @click="canChangePassword = true">修改密码</el-button>
+                </template>
+            </el-input>
         </el-form-item>
-        <el-form-item label="密码" required prop="password" v-if="mode">
+        <el-form-item label="密码" required prop="password" v-if="mode || canChangePassword">
             <el-input v-model="user.password" type="password" />
         </el-form-item>
         <el-form-item label="昵称" prop="nick">
@@ -36,7 +40,7 @@
             <el-switch size="large" v-model="user.status" :active-value="1" :inactive-value="-1" />
         </el-form-item>
         <div class="submit">
-            <el-button type="primary" :loading="loading" @click="saveUserInfo(formRef)" >提交</el-button>
+            <el-button type="primary" :loading="loading" @click="saveUserInfo(formRef)">提交</el-button>
         </div>
     </el-form>
 </template>
@@ -64,6 +68,8 @@ const emits = defineEmits<{
 //表单数据
 const user = ref<UserInfo>(props.user ?? {})
 const mode = ref(props.isAdd) //当前窗口是否为添加模式
+const showChangePasswordBtn = ref(mode.value ? "" : "append") //修改模式展示修改密码按钮
+const canChangePassword = ref(false)
 const photoData = ref<FormData>(new FormData()) //用户待上传的图片数据
 const loading = ref(false)
 const formRef = ref<FormInstance>()

@@ -11,6 +11,8 @@
             }"
             ref="tableRef"
             :indent="30"
+            row-key="id"
+            current-row-key="id"
             v-loading="tableLoading"
         >
             <el-table-column prop="name" fixed="left" label="名称"></el-table-column>

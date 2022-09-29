@@ -26,7 +26,7 @@ export function updateRole(role: Permission) {
 //删除角色
 export function delRole(ids: Array<RoleId>) {
     return request({
-        url: "/identity-service/api/role/del",
+        url: "/identity-service/api/role/delete",
         method: 'delete',
         data: ids
     })

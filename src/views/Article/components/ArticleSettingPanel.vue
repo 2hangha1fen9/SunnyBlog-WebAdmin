@@ -176,7 +176,7 @@ async function save(form: FormInstance) {
                         ElMessage.success("发布成功")
                         setTimeout(() => {
                             emits("closeDialog")
-                            router.back()
+                            router.push('/article/list')
                         }, 1000)
                     } else {
                         ElMessage.warning(data.message)

@@ -24,7 +24,7 @@
             <el-switch size="large" v-model="region.status" :active-value="1" :inactive-value="-1" />
         </el-form-item>
         <div class="submit">
-            <el-button type="primary" :loading="loading" @click="saveRegion(formRef)" >提交</el-button>
+            <el-button type="primary" :loading="loading" @click="saveRegion(formRef)">提交</el-button>
         </div>
     </el-form>
 </template>
@@ -79,6 +79,7 @@ async function saveRegion(form: FormInstance) {
             } else {
                 addRegion(region.value).then((data: Response<string>) => {
                     if (data.status === 200) {
+                        ElMessage.success("操作成功")
                         setTimeout(() => {
                             emits("closeDialog")
                             emits("updateState")

@@ -137,7 +137,6 @@ const dialogVisible = ref(false) //对话框显示状态
 const state = reactive<PageBean<Array<Article>>>({}) //表格数据
 const tableRef = ref<InstanceType<typeof ElTable>>() //表格引用
 const rowRef = reactive<Article>({}) //当前行引用
-
 //所有条件
 const condidtion = [
     {

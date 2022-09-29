@@ -41,7 +41,7 @@ function initArticle() {
         article.value = data.result
         vditor.value?.setTheme("classic", data.result.contentStyle, data.result.codeStyle)
         vditor.value?.setValue(data.result.content)
-        
+
         //将分类数据,标签数据转换为ID数组
         let tagIds = []
         article.value.tags.forEach((item) => {
@@ -97,6 +97,7 @@ onMounted(() => {
         preview: {
             markdown: {
                 toc: true,
+                mark: true
             },
         },
         toolbar: ["outline", "|", "emoji", "headings", "bold", "italic", "strike", "line", "|", "outdent", "indent", "|", "quote", "list", "ordered-list", "check", "table", "|", "code", "inline-code", "|", "insert-after", "insert-before", "|", "undo", "redo", "|", "upload", "link", "|", "code-theme", "content-theme", "export", "|", "edit-mode", "preview", "fullscreen"],

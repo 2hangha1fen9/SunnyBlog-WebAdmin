@@ -16,7 +16,7 @@
         class="transfer"
     />
     <div class="submit">
-        <el-button type="primary" :loading="btnLoading"  @click="saveRolePermission">提交</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="saveRolePermission">提交</el-button>
     </div>
 </template>
 
@@ -65,7 +65,7 @@ function queryListPermission() {
         data.result.page.forEach((item: Permission) => {
             allPermission.value.unshift({
                 id: item.id,
-                description: `${item.description} /${item.service}/${item.controller}/${item.action}`,
+                description: `${item.isPublic == 1 ? "[公共]" : ""}${item.description} /${item.service}/${item.controller}/${item.action}`,
             })
         })
     })

@@ -7,7 +7,7 @@ const token = computed(() => store.getters['identity/token'])
 //创建axios实例
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API, //api网关
-    timeout: 20000 //请求超时时间10s
+    timeout: 50000 //请求超时时间10s
 })
 
 //request拦截器
@@ -53,7 +53,7 @@ service.interceptors.response.use(
                 type: 'warning',
             })
         }
-        else {
+        else if (error.message != "Request failed with status code 400") {
             ElMessage({
                 message: '系统异常，请稍候再试。异常详情：' + error.message,
                 type: 'error',

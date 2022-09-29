@@ -45,14 +45,14 @@
             <el-table-column prop="createTime" label="创建时间" width="180" :formatter="createTimeFormatter" />
             <el-table-column prop="status" fixed="right" width="100" label="状态">
                 <template #default="scope">
-                    <el-tag v-if="scope.row.status === -1" type="prmiary">待审核</el-tag>
+                    <el-tag v-if="scope.row.status === 2" type="prmiary">待审核</el-tag>
                     <el-tag v-else-if="scope.row.status === 1" type="success">审核通过</el-tag>
                 </template>
             </el-table-column>
             <el-table-column fixed="right" width="150" label="操作">
                 <template #default="scope">
                     <el-button-group>
-                        <el-button type="success" size="small" v-if="scope.row.status === -1" @click="allowCommentStatus(scope.row.id)">审核</el-button>
+                        <el-button type="success" size="small" v-if="scope.row.status === 2" @click="allowCommentStatus(scope.row.id)">审核</el-button>
                         <el-popconfirm title="您确定要删除这条评论吗" @confirm="deleteSingleComment(scope.row.id, scope.$index)">
                             <template #reference>
                                 <el-button type="danger" size="small">删除</el-button>

@@ -26,7 +26,6 @@ const actions = {
         commit('SET_JWT', jwt)
     },
     logout({ commit }: any) {
-        commit('REMOVE_TOKEN')
         commit('REMOVE_JWT')
     }
 }
@@ -38,22 +37,31 @@ const getters = {
         return ''
     },
     userId(state: Jwt) {
-        const { user_id } = jwtDecode<JwtPayload>(getters.token(state))
-        return user_id
+        if (getters.isValid(state)) {
+            const { user_id } = jwtDecode<JwtPayload>(getters.token(state))
+            return user_id
+        }
     },
     username(state: Jwt) {
-        const { user_name, user_nick } = jwtDecode<JwtPayload>(getters.token(state))
-        return user_nick || user_name
+        if (getters.isValid(state)) {
+            const { user_name, user_nick } = jwtDecode<JwtPayload>(getters.token(state))
+            return user_nick || user_name
+        }
     },
     nick(state: Jwt) {
-        const { user_nick } = jwtDecode<JwtPayload>(getters.token(state))
-        return user_nick
+        if (getters.isValid(state)) {
+            const { user_nick } = jwtDecode<JwtPayload>(getters.token(state))
+            return user_nick
+        }
     },
     photo(state: Jwt) {
-        const { user_photo } = jwtDecode<JwtPayload>(getters.token(state))
-        return `${process.env.VUE_APP_BASE_API}/user-service${user_photo}`
+        if (getters.isValid(state)) {
+            const { user_photo } = jwtDecode<JwtPayload>(getters.token(state))
+            return `${process.env.VUE_APP_BASE_API}/user-service${user_photo}`
+        }
     },
     isValid(state: Jwt): boolean {
+        if (!state) return false
         const timestamp = Math.round(new Date().getTime() / 1000) //获取当前unix时间戳
         const expiration = state.jwt.expiration //获取token有效期
         if (timestamp > expiration) {

@@ -53,7 +53,7 @@
             <el-table-column prop="email" label="邮箱" width="220"></el-table-column>
             <el-table-column prop="sex" label="性别" :formatter="sexFormatter" width="60"></el-table-column>
             <el-table-column prop="birthday" label="生日" :formatter="userDateFormatter" width="120"></el-table-column>
-            <el-table-column prop="registerTime" label="注册时间" :formatter="userDateFormatter" width="120"></el-table-column>
+            <el-table-column prop="registerTime" label="注册时间" :formatter="registerTimeFormatter" width="200"></el-table-column>
             <el-table-column prop="remark" label="备注"></el-table-column>
             <el-table-column prop="score" label="积分" width="60"></el-table-column>
             <el-table-column prop="status" fixed="right" width="80" label="状态">
@@ -103,7 +103,7 @@ import { ElMessage, ElTable } from "element-plus"
 import { debounce, throttle } from "lodash" //引入防抖节流
 import EditorPanel from "./components/UserEditorPanel.vue"
 import UserRoleBind from "./components/UserRoleBindPanel.vue"
-import { dateFormatter } from "@/utils/converter"
+import { dateFormatter, dateTimeFormatter } from "@/utils/converter"
 //api
 import { listUser, delUser, updateUser } from "@/api/user/user"
 //接口
@@ -278,7 +278,10 @@ function handleBindDialogVisible(user: UserInfo) {
 }
 //日期格式化
 function userDateFormatter(row: UserInfo) {
-    return dateFormatter(row.birthday)
+    if (row.birthday) return dateFormatter(row.birthday)
+}
+function registerTimeFormatter(row: UserInfo) {
+    if (row.registerTime) return dateTimeFormatter(row.registerTime)
 }
 //性别格式化
 function sexFormatter(row: UserInfo) {

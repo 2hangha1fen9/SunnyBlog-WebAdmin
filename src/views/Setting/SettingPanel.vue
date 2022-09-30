@@ -7,9 +7,9 @@
             <el-form label-width="100px">
                 <el-form-item label="文章发布策略">
                     <el-radio-group v-model="globalSetting.articleStatus.value" @change="globalSetting.articleStatus.modify = true">
+                        <el-radio-button :label="1">无限制</el-radio-button>
                         <el-radio-button :label="-1">需要审核</el-radio-button>
                         <el-radio-button :label="-2">禁止发布</el-radio-button>
-                        <el-radio-button :label="1">无限制</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="评论策略">

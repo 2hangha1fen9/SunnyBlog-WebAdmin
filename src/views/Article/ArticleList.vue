@@ -266,11 +266,8 @@ function initRowData(article: Article) {
         tagIds.unshift(item.id)
     })
     rowRef.tags = tagIds
-    let categoryIds = []
-    article.categorys.forEach((item) => {
-        tagIds.unshift(item.id)
-    })
-    rowRef.categorys = categoryIds
+    rowRef.CategoryId = article.CategoryId
+    rowRef.CategoryName = article.CategoryName
     rowRef.status = article.status
     rowRef.isLock = article.isLock
     rowRef.commentStatus = article.commentStatus

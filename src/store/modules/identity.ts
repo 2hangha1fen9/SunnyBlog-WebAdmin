@@ -32,7 +32,7 @@ const actions = {
 const getters = {
     token(state: Jwt): string {
         if (getters.isValid(state)) {
-            return state.jwt.token
+            return state.jwt.token || JSON.parse(localStorage.getItem('jwt') || '{"token":"","expiration":0}').token || ""
         }
         return ''
     },
@@ -63,7 +63,7 @@ const getters = {
     isValid(state: Jwt): boolean {
         if (!state) return false
         const timestamp = Math.round(new Date().getTime() / 1000) //获取当前unix时间戳
-        const expiration = state.jwt.expiration //获取token有效期
+        const expiration = state.jwt.expiration || JSON.parse(localStorage.getItem('jwt') || '{"token":"","expiration":0}').expiration //获取token有效期
         if (timestamp > expiration) {
             return false
         }

@@ -1,8 +1,6 @@
 import axios from 'axios'
 import store from '@/store/index'
 import { ElMessage } from 'element-plus'
-import { computed } from 'vue'
-const token = computed(() => store.getters['identity/token'])
 
 //创建axios实例
 const service = axios.create({
@@ -13,9 +11,9 @@ const service = axios.create({
 //request拦截器
 service.interceptors.request.use(config => {
     //让每一个请求都带上jwt
-    if (token.value) {
+    if (store.getters['identity/token']) {
         if (config && config.headers) {
-            config.headers['Authorization'] = `Bearer ${token.value}`
+            config.headers['Authorization'] = `Bearer ${store.getters['identity/token']}`
         }
     } else {
         store.dispatch('identity/logout')

@@ -110,6 +110,8 @@ import { listUser, delUser, updateUser } from "@/api/user/user"
 import { UserInfo, UserId } from "@/interface/user/user"
 import { Response, PageBean } from "@/interface/common/response"
 import { SearchCondidtion } from "@/interface/common/search-condition"
+import { getImgUrl } from "@/utils/converter"
+
 
 //数据
 const tableLoading = ref(false) //表格加载动画
@@ -247,7 +249,7 @@ function handleDialogVisible(user: UserInfo, mode: boolean) {
     if (!mode) {
         rowRef.id = user.id
         rowRef.username = user.username
-        rowRef.photo = `${process.env.VUE_APP_BASE_API}/user-service${user.photo}`
+        rowRef.photo = getImgUrl("user-service",user.photo)
         rowRef.nick = user.nick
         rowRef.phone = user.phone
         rowRef.email = user.email

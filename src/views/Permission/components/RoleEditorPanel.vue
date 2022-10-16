@@ -10,7 +10,7 @@
             </el-radio-group>
         </el-form-item>
         <div class="submit">
-            <el-button type="primary" :loading="btnLoading"  @click="saveRoleInfo(formRef)">提交</el-button>
+            <el-button type="primary" :loading="btnLoading" @click="saveRoleInfo(formRef)">提交</el-button>
         </div>
     </el-form>
 </template>
@@ -52,7 +52,6 @@ async function saveRoleInfo(form: FormInstance) {
     if (!form) return
     await form.validate((valid, fields) => {
         if (valid) {
-            debugger
             btnLoading.value = true
             if (isAdd.value) {
                 addRole(role.value).then((data) => {

@@ -2,7 +2,7 @@
     <el-form :rules="rules" ref="formRef" :model="article" label-width="80px">
         <el-form-item label="封面" prop="photo">
             <el-upload class="avatar-uploader" :show-file-list="false" :auto-upload="false" :limit="1" :on-change="previewPhoto" name="data">
-                <el-image style="min-width: 200px; height: 150px; max-width: 100%; max-height: 100%; display: block" fit="scale-down" ref="photoRef" :src="article.photo">
+                <el-image style="min-width: 200px; height: 150px; max-width: 100%; max-height: 100%; display: block" fit="scale-down" ref="photoRef" :src="photoUrl">
                     <template #placeholder>
                         <el-skeleton-item variant="image" style="width: 100%; height: 100%" />
                     </template>
@@ -34,7 +34,7 @@
         </el-form-item>
         <el-form-item label="标签" prop="tags" class="select">
             <el-select v-model="article.tags" multiple class="select">
-                <el-option v-for="tag in tags" :key="tag.id" :value="tag.id" :label="tag.name" />
+                <el-option v-for="tag in tags" :key="tag.id" :value="tag.id" :label="tag.name" :style="`color:${tag.color}`" />
             </el-select>
         </el-form-item>
         <el-form-item required label="状态" prop="status">
@@ -43,6 +43,7 @@
                 <el-radio-button :label="-1">待审核</el-radio-button>
                 <el-radio-button :label="2">私有</el-radio-button>
                 <el-radio-button :label="3">回收站</el-radio-button>
+                <el-radio-button :label="4">草稿</el-radio-button>
             </el-radio-group>
         </el-form-item>
         <el-form-item required label="评论策略" prop="commentStatus">
@@ -62,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
+import { reactive, ref, computed } from "vue"
 import { useStore } from "vuex"
 import { useRouter } from "vue-router"
 import { ElMessage, UploadFile } from "element-plus"
@@ -71,7 +72,7 @@ import type { FormRules, FormInstance } from "element-plus"
 import { Article } from "@/interface/article/article"
 import { Region } from "@/interface/article/region"
 import { Tag } from "@/interface/article/tag"
-import { Response } from "@/interface/common/response"
+import { Response,UploadResult } from "@/interface/common/response"
 // api
 import { updateArticle, publishArticle } from "@/api/article/article"
 import { uploadPicture } from "@/api/article/drawing-bed"
@@ -96,6 +97,13 @@ const tags = ref<Array<Tag>>([]) //所有标签
 const loading = ref(false)
 const formRef = ref<FormInstance>()
 const photoData = ref<FormData>(new FormData()) //待上传的图片数据
+const photoUrl = computed(() => {
+    if (photoData.value.get("data")) {
+        return article.value.photo
+    } else {
+        return `${process.env.VUE_APP_BASE_API}/article-service${article.value.photo}`
+    }
+})
 //表单验证规则
 const rules = reactive<FormRules>({
     title: [
@@ -122,7 +130,7 @@ function saveArticle(form: FormInstance) {
     if (photoData.value.get("data")) {
         if (props.isEdit) {
             uploadPicture(photoData.value, article.value.id, article.value.userId)
-                .then((data: Response<string>) => {
+                .then((data: Response<UploadResult>) => {
                     if (data.status !== 200) {
                         ElMessage.warning("图片上传失败")
                         return false
@@ -135,7 +143,7 @@ function saveArticle(form: FormInstance) {
         } else {
             //添加模式匿名上传封面
             uploadPicture(photoData.value)
-                .then((data: Response<string>) => {
+                .then((data: Response<UploadResult>) => {
                     if (data.status !== 200) {
                         ElMessage.warning("图片上传失败")
                         return false
@@ -176,7 +184,7 @@ async function save(form: FormInstance) {
                         ElMessage.success("发布成功")
                         setTimeout(() => {
                             emits("closeDialog")
-                            router.push('/article/list')
+                            router.push("/article/list")
                         }, 1000)
                     } else {
                         ElMessage.warning(data.message)
@@ -230,6 +238,7 @@ getPublicTag()
 if (props.isEdit) {
     //如果为编辑模式获取这篇文章作者的所有标签
     getUserTag(article.value.userId)
+    article.value.regionId = article.value.regionId === 0 ? null : article.value.regionId
 } else {
     article.value.status = 1
     article.value.commentStatus = 1

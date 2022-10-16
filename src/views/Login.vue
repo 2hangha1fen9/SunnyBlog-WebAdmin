@@ -110,7 +110,7 @@ function checkUsername(rule: unknown, value: string, callback: unknown) {
                 return callback(new Error("登录名长度为6~20个字符"))
             }
         } else {
-            if (vcData.type === "phone" && !/^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(value)) {
+            if (vcData.type === "phone" && !/^1[3|4|5|7|8|9]\d{9}$/.test(value)) {
                 return callback(new Error("手机号格式错误"))
             }
             if (vcData.type === "email" && !/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)) {

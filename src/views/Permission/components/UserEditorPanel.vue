@@ -54,7 +54,7 @@ import { updateUser, addUser } from "@/api/user/user"
 import { uploadAvatar } from "@/api/user/avatar"
 //接口
 import { UserInfo } from "@/interface/user/user"
-import { Response } from "@/interface/common/response"
+import { Response,UploadResult } from "@/interface/common/response"
 
 const props = defineProps<{
     user: UserInfo
@@ -123,12 +123,12 @@ function saveUserInfo(form: FormInstance) {
     //如果上传了头像,先调用上传头像接口上传头像
     if (photoData.value.get("data")) {
         uploadAvatar(photoData.value, user.value.id)
-            .then((data: Response<string>) => {
+            .then((data: Response<UploadResult>) => {
                 if (data.status !== 200) {
                     ElMessage.warning("图片上传失败")
                     return false
                 }
-                user.value.photo = data.result.data
+                user.value.photo = data.result.path
             })
             .then(() => {
                 save(form)

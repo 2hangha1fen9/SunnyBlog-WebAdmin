@@ -16,3 +16,8 @@ export function dateFormatter(date: string) {
     const day = (d.getDate().toString().padStart(2, '0'))
     return `${year}-${month}-${day}`
 }
+
+//获取图片真实路径
+export function getImgUrl(serviceName: string, refPath: string, disableCache = true) {
+    return `${process.env.VUE_APP_BASE_API}/${serviceName}${refPath}${disableCache && '?time=' + Date.now()}`
+}

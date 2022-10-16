@@ -33,7 +33,7 @@
                 </p>
             </div>
         </el-card>
-        <el-table :data="state.page" border ref="tableRef"  v-loading="tableLoading">
+        <el-table :data="state.page" border ref="tableRef" v-loading="tableLoading">
             <el-table-column type="selection" fixed width="55" />
             <el-table-column prop="content" label="评论" min-width="150" />
             <el-table-column prop="articleTitle" label="文章标题" min-width="200" />
@@ -45,7 +45,7 @@
             <el-table-column prop="createTime" label="创建时间" width="180" :formatter="createTimeFormatter" />
             <el-table-column prop="status" fixed="right" width="100" label="状态">
                 <template #default="scope">
-                    <el-tag v-if="scope.row.status === 2" type="prmiary">待审核</el-tag>
+                    <el-tag v-if="scope.row.status === -1" type="prmiary">待审核</el-tag>
                     <el-tag v-else-if="scope.row.status === 1" type="success">审核通过</el-tag>
                 </template>
             </el-table-column>

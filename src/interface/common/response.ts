@@ -12,3 +12,7 @@ export interface PageBean<T> {
     totalPages: number
     totalCount: number
 }
+//上传结果
+export interface UploadResult {
+    path: string
+}

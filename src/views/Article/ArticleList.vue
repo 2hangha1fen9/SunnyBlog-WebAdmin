@@ -68,6 +68,7 @@
                     <el-tag v-else-if="scope.row.status === 1" type="success">已发布</el-tag>
                     <el-tag v-else-if="scope.row.status === 2" type="error">私有</el-tag>
                     <el-tag v-else-if="scope.row.status === 3" type="info">回收站</el-tag>
+                    <el-tag v-else-if="scope.row.status === 4" type="info">草稿</el-tag>
                 </template>
             </el-table-column>
             <el-table-column fixed="right" prop="commentStatus" width="100" label="评论策略">
@@ -110,7 +111,7 @@
             </div>
             <el-pagination class="pageination" background layout="jumper, prev, pager, next , total ,sizes" :total="state.totalCount" v-model:currentPage="state.pageIndex" v-model:page-size="state.pageSize" />
         </footer>
-        <el-dialog v-model="dialogVisible" v-if="dialogVisible" :title="isAdd ? '添加用户' : '文章信息'">
+        <el-dialog align-center v-model="dialogVisible" v-if="dialogVisible" :title="isAdd ? '添加用户' : '文章信息'">
             <ArticleSettingPanel :article="rowRef" :isEdit="true" @closeDialog="dialogVisible = false" @updateState="getArticleList"></ArticleSettingPanel>
         </el-dialog>
     </section>
@@ -266,8 +267,8 @@ function initRowData(article: Article) {
         tagIds.unshift(item.id)
     })
     rowRef.tags = tagIds
-    rowRef.CategoryId = article.CategoryId
-    rowRef.CategoryName = article.CategoryName
+    rowRef.categoryId = article.categoryId
+    rowRef.categoryName = article.categoryName
     rowRef.status = article.status
     rowRef.isLock = article.isLock
     rowRef.commentStatus = article.commentStatus
@@ -299,7 +300,6 @@ onMounted(() => {
     //监听页码页面尺寸
     watch([() => state.pageIndex, () => state.pageSize], () => {
         getArticleList()
-        window.scrollTo({ left: 0, top: 0, behavior: "smooth" }) //滚动到页面顶部
     })
 })
 

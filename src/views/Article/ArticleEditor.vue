@@ -6,7 +6,7 @@
         </header>
         <div id="vditor"></div>
         <el-dialog @close="btnLoading = false" v-model="dialogVisible" v-if="dialogVisible" title="发布文章">
-            <ArticleSettingPanel :article="article" :isEdit="false" @closeDialog="dialogVisible = false"></ArticleSettingPanel>
+            <ArticleSettingPanel :article="article" :isEdit="false" @closeDialog="dialogVisible = btnLoading = false"></ArticleSettingPanel>
         </el-dialog>
     </section>
 </template>
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import Vditor from "vditor"
 import "vditor/dist/index.css"
-import { ref, onMounted } from "vue"
+import { ref, onMounted, nextTick } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { ElMessage } from "element-plus"
 import ArticleSettingPanel from "./components/ArticleSettingPanel.vue"
@@ -24,6 +24,7 @@ import { Response } from "@/interface/common/response"
 // api
 import { uploadPicture } from "@/api/article/drawing-bed"
 import { updateArticle, getArticle } from "@/api/article/article"
+import { getImgUrl } from "@/utils/converter"
 
 const router = useRouter()
 const route = useRoute()
@@ -48,11 +49,6 @@ function initArticle() {
             tagIds.unshift(item.id)
         })
         article.value.tags = tagIds
-        let categoryIds = []
-        article.value.categorys.forEach((item) => {
-            tagIds.unshift(item.id)
-        })
-        article.value.categorys = categoryIds
     })
 }
 
@@ -61,7 +57,7 @@ function saveArticle() {
     article.value.content = vditor.value?.getValue()
     article.value.contentStyle = vditor.value?.vditor.options.preview?.theme?.current
     article.value.codeStyle = vditor.value?.vditor.options.preview?.hljs?.style
-
+    getSummary()
     if (isEdit) {
         //编辑模式
         updateArticle(article.value).then((data: Response<string>) => {
@@ -78,12 +74,22 @@ function saveArticle() {
     }
 }
 
+//获取文章摘要
+function getSummary() {
+    let temp = document.createElement("div")
+    temp.innerHTML = vditor.value?.getHTML()
+    let summary = ""
+    for (let e of temp.children) {
+        if (e.tagName === "P") {
+            summary += e.innerText
+        }
+    }
+    article.value.summary = summary.substring(0,200)
+}
+
 //markdown编辑器
 const vditor = ref<Vditor | null>(null)
 onMounted(() => {
-    if (isEdit) {
-        initArticle()
-    }
     //markdown编辑器配置
     vditor.value = new Vditor("vditor", {
         height: "81vh",
@@ -97,7 +103,7 @@ onMounted(() => {
         preview: {
             markdown: {
                 toc: true,
-                mark: true
+                mark: true,
             },
         },
         toolbar: ["outline", "|", "emoji", "headings", "bold", "italic", "strike", "line", "|", "outdent", "indent", "|", "quote", "list", "ordered-list", "check", "table", "|", "code", "inline-code", "|", "insert-after", "insert-before", "|", "undo", "redo", "|", "upload", "link", "|", "code-theme", "content-theme", "export", "|", "edit-mode", "preview", "fullscreen"],
@@ -109,8 +115,7 @@ onMounted(() => {
                 formData.append("data", files[0])
                 uploadPicture(formData).then((data: Response<string>) => {
                     if (data.status === 200) {
-                        debugger
-                        let imgUrl = `${process.env.VUE_APP_BASE_API}/article-service${data.result.path}`
+                        let imgUrl = getImgUrl("article-service",data.result.path,false)
                         let linkUrl = `![${"img"}](${imgUrl})`
                         vditor.value?.insertValue(linkUrl)
                     } else {
@@ -118,6 +123,11 @@ onMounted(() => {
                     }
                 })
             },
+        },
+        after() {
+            nextTick(() => {
+                isEdit && initArticle()
+            })
         },
     })
 })

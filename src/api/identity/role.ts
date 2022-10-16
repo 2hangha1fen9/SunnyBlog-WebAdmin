@@ -6,7 +6,7 @@ import { SearchCondidtion } from '@/interface/common/search-condition'
 //列出权限列表
 export function listRole(pageIndex?: number | 1, pageSize?: number | 10, condition?: Array<SearchCondidtion>) {
     return request({
-        url: 'identity-service/api/role/list',
+        url: '/identity-service/api/role/list',
         method: 'get',
         params: {
             pageIndex: pageIndex,

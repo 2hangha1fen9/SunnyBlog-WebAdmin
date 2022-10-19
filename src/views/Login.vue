@@ -38,7 +38,6 @@
 import { useStore } from "vuex"
 import { reactive, ref, watch } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import { start, close } from "@/utils/progress"
 import { FormRules, FormInstance, ElMessage } from "element-plus"
 //api
 import { login } from "@/api/identity/login" //登录api
@@ -181,7 +180,6 @@ async function handleLogin(form: FormInstance) {
     if (!form) return
     await form.validate((valid, fields) => {
         if (valid) {
-            start()
             loading.value = true
             //调用登录api
             login(loginData)
@@ -189,16 +187,13 @@ async function handleLogin(form: FormInstance) {
                     //存入token
                     store.dispatch("identity/login", data)
                     router.push({ path: redirect.value || "/" })
-                    close()
                     loading.value = false
                 })
                 .catch((error) => {
                     ElMessage.warning(`鉴权失败`)
                     loading.value = false
-                    close()
                 })
         } else {
-            close()
             return false
         }
     })
@@ -208,14 +203,15 @@ async function handleSend(form: FormInstance) {
     //发送验证码
     await form.validateField("username", (valid) => {
         if (valid) {
-            start()
             sendButton.handle()
             //调用发送验证码api
             sendVerificationCode(vcData).then((data) => {
-                console.log(data)
+                if (data.status === 200) {
+                    ElMessage.success("发送成功")
+                } else {
+                    ElMessage.warning(data.message)
+                }
             })
-
-            close()
         }
     })
 }

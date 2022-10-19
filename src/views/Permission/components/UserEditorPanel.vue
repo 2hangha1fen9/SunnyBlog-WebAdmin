@@ -1,7 +1,7 @@
 <template>
     <el-form :rules="rules" ref="formRef" :model="user" label-width="80px">
         <el-form-item label="头像" prop="photo" style="height: 80px" v-if="!mode">
-            <el-upload class="avatar-uploader" :show-file-list="false" :auto-upload="false" :limit="1" :on-change="previewPhoto" name="data">
+            <el-upload class="avatar-uploader" :show-file-list="false" :auto-upload="false"  :on-change="previewPhoto" name="data">
                 <el-avatar :size="80" ref="photoRef" :src="user.photo" />
             </el-upload>
         </el-form-item>
@@ -114,6 +114,7 @@ function previewPhoto(file: UploadFile) {
         ElMessage.warning("文件大小不能超过2M")
         return false
     }
+    photoData.value = new FormData()
     photoData.value.append("data", file.raw)
     user.value.photo = URL.createObjectURL(file.raw)
 }

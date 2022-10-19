@@ -1,7 +1,7 @@
 <template>
     <el-form :rules="rules" ref="formRef" :model="article" label-width="80px">
         <el-form-item label="封面" prop="photo">
-            <el-upload class="avatar-uploader" :show-file-list="false" :auto-upload="false" :limit="1" :on-change="previewPhoto" name="data">
+            <el-upload class="avatar-uploader" :show-file-list="false" :auto-upload="false" :on-change="previewPhoto" name="data">
                 <el-image style="min-width: 200px; height: 150px; max-width: 100%; max-height: 100%; display: block" fit="scale-down" ref="photoRef" :src="photoUrl">
                     <template #placeholder>
                         <el-skeleton-item variant="image" style="width: 100%; height: 100%" />
@@ -72,7 +72,7 @@ import type { FormRules, FormInstance } from "element-plus"
 import { Article } from "@/interface/article/article"
 import { Region } from "@/interface/article/region"
 import { Tag } from "@/interface/article/tag"
-import { Response,UploadResult } from "@/interface/common/response"
+import { Response, UploadResult } from "@/interface/common/response"
 // api
 import { updateArticle, publishArticle } from "@/api/article/article"
 import { uploadPicture } from "@/api/article/drawing-bed"
@@ -120,6 +120,7 @@ function previewPhoto(file: UploadFile) {
         ElMessage.warning("图片格式错误：只能为：png、jpeg、gif、bmp、ico")
         return false
     }
+    photoData.value = new FormData()
     photoData.value.append("data", file.raw)
     article.value.photo = URL.createObjectURL(file.raw)
 }

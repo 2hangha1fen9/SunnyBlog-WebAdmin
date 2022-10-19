@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
         children: [
             {
                 path: '/',
-                component: () => import('@/views/HomeView.vue'),
+                component: () => import('@/views/Home/Home.vue'),
             }
         ]
     },
@@ -148,6 +148,17 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     title: '注册中心',
                     icon: 'consul'
+                }
+            },
+            {
+                path: '/maintin/skywalking',
+                component: () => import('@/views/Maintin/Iframe.vue'),
+                props: {
+                    url: 'http://10.42.0.1:5050/'
+                },
+                meta: {
+                    title: '链路追踪',
+                    icon: 'skywalking'
                 }
             },
             {

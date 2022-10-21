@@ -1,47 +1,45 @@
 <template>
-  <div style="padding: 0 15px" @click="toggleClick">
-    <svg
-      :class="{ 'is-active': isActive }"
-      class="hamburger"
-      viewBox="0 0 1024 1024"
-      xmlns="http://www.w3.org/2000/svg"
-      width="64"
-      height="64"
-    >
-      <path
-        d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z"
-      />
-    </svg>
-  </div>
+    <div style="padding: 0 15px" @click="toggleClick">
+        <!-- <svg :class="{ 'is-active': isActive }" class="hamburger" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+            <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z" />
+        </svg> -->
+        <svg :class="{ 'is-active': isActive }" class="hamburger" t="1666289207709" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2555" width="200" height="200">
+            <path d="M0 0m47.919115 0l1054.220532 0q47.919115 0 47.919115 47.919115l0 0q0 47.919115-47.919115 47.919115l-1054.220532 0q-47.919115 0-47.919115-47.919115l0 0q0-47.919115 47.919115-47.919115Z" fill="#4D4D4D" p-id="2556"></path>
+            <path d="M0 862.544072m47.919115 0l1054.220532 0q47.919115 0 47.919115 47.919115l0 0q0 47.919115-47.919115 47.919115l-1054.220532 0q-47.919115 0-47.919115-47.919115l0 0q0-47.919115 47.919115-47.919115Z" fill="#4D4D4D" p-id="2557"></path>
+            <path d="M383.352921 575.029381m47.919115 0l670.867611 0q47.919115 0 47.919115 47.919115l0 0q0 47.919115-47.919115 47.919115l-670.867611 0q-47.919115 0-47.919115-47.919115l0 0q0-47.919115 47.919115-47.919115Z" fill="#4D4D4D" p-id="2558"></path>
+            <path d="M383.352921 287.514691m47.919115 0l670.867611 0q47.919115 0 47.919115 47.919115l0 0q0 47.919115-47.919115 47.919115l-670.867611 0q-47.919115 0-47.919115-47.919115l0 0q0-47.919115 47.919115-47.919115Z" fill="#4D4D4D" p-id="2559"></path>
+            <path d="M6.9825 502.46615L262.870574 683.737317a16.566323 16.566323 0 0 0 26.150146-13.691176V307.640719a16.566323 16.566323 0 0 0-26.150146-13.691176L6.9825 475.357622a16.703234 16.703234 0 0 0 0 27.108528z" fill="#4D4D4D" p-id="2560"></path>
+        </svg>
+    </div>
 </template>
 
 <script setup lang="ts">
 defineProps({
-  isActive: {
-    type: Boolean,
-    default: false,
-  },
-});
+    isActive: {
+        type: Boolean,
+        default: false,
+    },
+})
 //自定义事件
 const emit = defineEmits<{
-  (event: "toggleClick"): void;
-}>();
+    (event: "toggleClick"): void
+}>()
 //触发自定义事件
 function toggleClick() {
-  emit("toggleClick");
+    emit("toggleClick")
 }
 </script>
 
 <style>
 .hamburger {
-  display: inline-block;
-  vertical-align: middle;
-  width: 25px;
-  height: 25px;
-  transition: all 0.4s;
+    display: inline-block;
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    transition: all 0.4s;
 }
 
 .hamburger.is-active {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 </style>

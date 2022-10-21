@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import Vditor from "vditor"
 import "vditor/dist/index.css"
-import { ref, onMounted, nextTick } from "vue"
+import { ref, onMounted, nextTick, watch, getCurrentInstance } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { ElMessage } from "element-plus"
 import ArticleSettingPanel from "./components/ArticleSettingPanel.vue"
@@ -25,9 +25,13 @@ import { Response } from "@/interface/common/response"
 import { uploadPicture } from "@/api/article/drawing-bed"
 import { updateArticle, getArticle } from "@/api/article/article"
 import { getImgUrl } from "@/utils/converter"
+import { useDark, useToggle } from "@vueuse/core"
 
+//判断是否是黑暗模式
+const isDark = useDark()
 const router = useRouter()
 const route = useRoute()
+const instance = getCurrentInstance()
 
 //从路由中获取文章id
 const articleId: number = parseInt(route.query["articleId"])
@@ -40,7 +44,7 @@ const article = ref<Article>({})
 function initArticle() {
     getArticle(articleId).then((data: Response<Article>) => {
         article.value = data.result
-        vditor.value?.setTheme("classic", data.result.contentStyle, data.result.codeStyle)
+        vditor.value?.setTheme(isDark.value ? "dark" : "classic", isDark.value ? "dark" : data.result.contentStyle, data.result.codeStyle)
         vditor.value?.setValue(data.result.content)
 
         //将分类数据,标签数据转换为ID数组
@@ -84,7 +88,7 @@ function getSummary() {
             summary += e.innerText
         }
     }
-    article.value.summary = summary.substring(0,200)
+    article.value.summary = summary.substring(0, 200)
 }
 
 //markdown编辑器
@@ -106,6 +110,7 @@ onMounted(() => {
                 mark: true,
             },
         },
+        theme: isDark.value ? "dark" : "classic",
         toolbar: ["outline", "|", "emoji", "headings", "bold", "italic", "strike", "line", "|", "outdent", "indent", "|", "quote", "list", "ordered-list", "check", "table", "|", "code", "inline-code", "|", "insert-after", "insert-before", "|", "undo", "redo", "|", "upload", "link", "|", "code-theme", "content-theme", "export", "|", "edit-mode", "preview", "fullscreen"],
         upload: {
             //自定义上传逻辑
@@ -115,7 +120,7 @@ onMounted(() => {
                 formData.append("data", files[0])
                 uploadPicture(formData).then((data: Response<string>) => {
                     if (data.status === 200) {
-                        let imgUrl = getImgUrl("article-service",data.result.path,false)
+                        let imgUrl = getImgUrl("article-service", data.result.path, false)
                         let linkUrl = `![${"img"}](${imgUrl})`
                         vditor.value?.insertValue(linkUrl)
                     } else {
@@ -126,11 +131,33 @@ onMounted(() => {
         },
         after() {
             nextTick(() => {
-                isEdit && initArticle()
+                if (isEdit) {
+                    initArticle()
+                } else {
+                    vditor.value?.setTheme(isDark.value ? "dark" : "classic")
+                }
             })
         },
     })
 })
+
+//切换黑暗模式事件
+instance?.proxy?.$bus.on("switchDark", switchDark)
+function switchDark(status: boolean) {
+    vditor.value?.setTheme(status ? "dark" : "classic", status ? "dark" : article.value.contentStyle, article.value.codeStyle)
+}
+//监听黑暗模式变化
+watch(
+    isDark.value,
+    (newVal) => {
+        nextTick(() => {
+            vditor.value?.setTheme(newVal ? "dark" : "classic", newVal ? "dark" : article.value.contentStyle, article.value.codeStyle)
+        })
+    },
+    {
+        immediate: true,
+    }
+)
 </script>
 
 <style scoped>
@@ -145,4 +172,18 @@ onMounted(() => {
 .title-submit {
     margin: 0px 5px 0px 5px;
 }
+
+/* #vditor {
+    border: none !important;
+}
+
+#vditor .vditor-content .vditor-reset {
+    color: var(--el-text-color-primary) !important;
+    background-color: var(--el-bg-color) !important;
+}
+
+.vditor-toolbar {
+    border-bottom: 1px solid var(--el-border-color) !important;
+    background-color: var(--el-bg-color) !important;
+} */
 </style>

@@ -14,14 +14,19 @@
 import Vditor from "vditor"
 import "vditor/dist/index.css"
 import { ElMessage } from "element-plus"
-import { ref, onMounted, nextTick } from "vue"
+import { ref, onMounted, nextTick, getCurrentInstance, watch } from "vue"
 import { Response } from "@/interface/common/response"
 import { getConfig, setConfig } from "@/api/article/siteconfig"
 import { uploadPicture } from "@/api/article/drawing-bed"
 import { getImgUrl } from "@/utils/converter"
+import { useDark, useToggle } from "@vueuse/core"
 
+//判断是否是黑暗模式
+const isDark = useDark()
 const footer = ref("")
 const loading = ref(false)
+const instance = getCurrentInstance()
+
 ///markdown编辑器
 const vditor = ref<Vditor | null>(null)
 onMounted(() => {
@@ -35,6 +40,7 @@ onMounted(() => {
         cache: {
             enable: false,
         },
+        theme: isDark.value ? "dark" : "classic",
         toolbar: ["emoji", "undo", "redo", "upload"],
         upload: {
             //自定义上传逻辑
@@ -65,6 +71,7 @@ function getFooter() {
         if (data.status === 200) {
             footer.value = data.result
             nextTick(() => {
+                vditor.value?.setTheme(isDark.value ? "dark" : "classic")
                 vditor.value?.setValue(data.result || "")
             })
         } else {
@@ -87,4 +94,22 @@ function setFooter() {
             loading.value = false
         })
 }
+
+//切换黑暗模式事件
+instance?.proxy?.$bus.on("switchDark", switchDark)
+function switchDark(status: boolean) {
+    vditor.value?.setTheme(status ? "dark" : "classic")
+}
+//监听黑暗模式变化
+watch(
+    isDark.value,
+    (newVal) => {
+        nextTick(() => {
+            vditor.value?.setTheme(status ? "dark" : "classic")
+        })
+    },
+    {
+        immediate: true,
+    }
+)
 </script>

@@ -2,7 +2,7 @@
     <nav class="side-container">
         <el-scrollbar max-height="100%">
             <el-menu router class="menu" :default-active="route.path" :collapse="sidebar.opened">
-                <el-menu-item index="/" class="logo" style="color: black; background-color: none">
+                <el-menu-item index="/" class="logo" style="color: var(--el-text-color-primary); background-color: none">
                     <el-icon>
                         <svg-icon class="sub-el-icon" icon-class="sunny" />
                     </el-icon>
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router"
 import { useStore } from "vuex"
-import { computed } from "vue"
+import { computed, onMounted, onUnmounted } from "vue"
 import Menu from "./Menu.vue"
 
 const store = useStore()
@@ -27,6 +27,25 @@ const route = useRoute()
 const router = useRouter()
 
 const routes = computed(() => router.options.routes)
+
+onMounted(() => {
+    //响应式配置
+    addEventListener("resize", collspaseAdide)
+})
+
+//收起侧边栏
+collspaseAdide()
+function collspaseAdide() {
+    if (document.documentElement.clientWidth <= 1200) {
+        store.dispatch("app/setStatus", true)
+    } else {
+        store.dispatch("app/setStatus", false)
+    }
+}
+
+onUnmounted(() => {
+    removeEventListener("resize", collspaseAdide)
+})
 </script>
 
 <style scoped>
@@ -35,7 +54,7 @@ const routes = computed(() => router.options.routes)
     position: sticky;
     height: 100vh;
     top: 0;
-    background-color: #fff;
+    background-color: var(--el-bg-color);
     -webkit-box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
     box-shadow: 0 1px 14px rgb(0 21 41 / 8%);
 }

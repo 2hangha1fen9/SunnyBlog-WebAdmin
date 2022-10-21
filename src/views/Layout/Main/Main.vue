@@ -26,7 +26,7 @@ const key = computed(() => route.path)
 .main-container {
     position: relative;
     min-height: 100%;
-    background-color: rgb(246, 248, 249);
+    background-color: var(--el-bg-color-page);
 }
 .main {
     width: 100%;

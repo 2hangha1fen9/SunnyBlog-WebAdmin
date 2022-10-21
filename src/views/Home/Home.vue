@@ -75,11 +75,11 @@ const activeName = ref("1")
 .card-icon {
     width: 30px;
     height: 30px;
-    color: white;
-    background-color: skyblue;
+    color: var(--el-color-white);
+    background-color: var(--el-color-primary-light-3);
     padding: 7px;
     border-radius: 16px;
-    box-shadow: 0px 0px 5px lightgray;
+    box-shadow: var(--el-box-shadow-lighter);
     margin: 10px 10px 10px 0px;
 }
 </style>

@@ -97,13 +97,6 @@ const tags = ref<Array<Tag>>([]) //所有标签
 const loading = ref(false)
 const formRef = ref<FormInstance>()
 const photoData = ref<FormData>(new FormData()) //待上传的图片数据
-const photoUrl = computed(() => {
-    if (photoData.value.get("data")) {
-        return article.value.photo
-    } else {
-        return `${process.env.VUE_APP_BASE_API}/article-service${article.value.photo}`
-    }
-})
 //表单验证规则
 const rules = reactive<FormRules>({
     title: [
@@ -136,7 +129,7 @@ function saveArticle(form: FormInstance) {
                         ElMessage.warning("图片上传失败")
                         return false
                     }
-                    article.value.photo = data.result.path
+                    article.value.photo = getImgUrl("article-service", data.result.path)
                 })
                 .then(() => {
                     save(form)
@@ -149,7 +142,7 @@ function saveArticle(form: FormInstance) {
                         ElMessage.warning("图片上传失败")
                         return false
                     }
-                    article.value.photo = data.result.path
+                    article.value.photo = getImgUrl("article-service", data.result.path)
                 })
                 .then(() => {
                     save(form)

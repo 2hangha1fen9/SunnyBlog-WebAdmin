@@ -143,7 +143,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/maintin/consul',
                 component: () => import('@/views/Maintin/Iframe.vue'),
                 props: {
-                    url: 'http://localhost:8500/ui/'
+                    url: 'http://blog.zhfsmy.cloud:8500/ui/'
                 },
                 meta: {
                     title: '注册中心',
@@ -154,7 +154,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/maintin/skywalking',
                 component: () => import('@/views/Maintin/Iframe.vue'),
                 props: {
-                    url: 'http://10.42.0.1:5050/'
+                    url: 'http://blog.zhfsmy.cloud:5050/ui/dc1/services'
                 },
                 meta: {
                     title: '链路追踪',
@@ -173,7 +173,7 @@ const routes: Array<RouteRecordRaw> = [
                         path: '/maintin/api/userServce',
                         component: () => import('@/views/Maintin/Iframe.vue'),
                         props: {
-                            url: 'https://localhost:8081/swagger'
+                            url: 'https://blog.zhfsmy.cloud:8081/swagger/index.html'
                         },
                         meta: {
                             title: '用户服务',
@@ -184,7 +184,7 @@ const routes: Array<RouteRecordRaw> = [
                         path: '/maintin/api/identityService',
                         component: () => import('@/views/Maintin/Iframe.vue'),
                         props: {
-                            url: 'https://localhost:8000/swagger'
+                            url: 'https://blog.zhfsmy.cloud:8000/swagger/index.html'
                         },
                         meta: {
                             title: '认证服务',
@@ -195,7 +195,7 @@ const routes: Array<RouteRecordRaw> = [
                         path: '/maintin/api/articleService',
                         component: () => import('@/views/Maintin/Iframe.vue'),
                         props: {
-                            url: 'https://localhost:8082/swagger'
+                            url: 'https://blog.zhfsmy.cloud:8082/swagger/index.html'
                         },
                         meta: {
                             title: '文章服务',
@@ -206,7 +206,7 @@ const routes: Array<RouteRecordRaw> = [
                         path: '/maintin/api/commentService',
                         component: () => import('@/views/Maintin/Iframe.vue'),
                         props: {
-                            url: 'https://localhost:8083/swagger'
+                            url: 'https://blog.zhfsmy.cloud:8083/swagger/index.html'
                         },
                         meta: {
                             title: '评论服务',
